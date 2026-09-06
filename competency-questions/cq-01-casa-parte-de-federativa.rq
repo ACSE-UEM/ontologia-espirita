@@ -1,0 +1,16 @@
+# CQ-01: Toda Casa é modelada como parte de alguma estrutura federativa?
+# (violação = esp:Casa sem uma restrição owl:someValuesFrom esp:Federativa em esp:parteDe)
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?casa
+WHERE {
+  VALUES ?casa { esp:Casa }
+  FILTER NOT EXISTS {
+    ?casa rdfs:subClassOf ?restricao .
+    ?restricao a owl:Restriction ;
+        owl:onProperty esp:parteDe ;
+        owl:someValuesFrom esp:Federativa .
+  }
+}

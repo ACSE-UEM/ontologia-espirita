@@ -27,3 +27,78 @@ esp:parteDe a owl:ObjectProperty ;
     rdfs:label "parte de"@pt-BR ;
     rdfs:domain esp:Organizacao ;
     rdfs:range esp:Organizacao .
+
+esp:Federativa a owl:Class ;
+    rdfs:subClassOf esp:Organizacao ;
+    rdfs:label "Federativa"@pt-BR .
+
+esp:Casa a owl:Class ;
+    rdfs:subClassOf esp:Organizacao ,
+        [ a owl:Restriction ;
+          owl:onProperty esp:parteDe ;
+          owl:someValuesFrom esp:Federativa ] ;
+    rdfs:label "Casa"@pt-BR .
+
+esp:Federacao a owl:Class ;
+    rdfs:subClassOf esp:Federativa ;
+    rdfs:label "Federação"@pt-BR .
+
+esp:Regional a owl:Class ;
+    rdfs:subClassOf esp:Federativa ;
+    rdfs:label "Regional"@pt-BR .
+
+esp:CRE a owl:Class ;
+    rdfs:subClassOf esp:Federativa ,
+        [ a owl:Restriction ;
+          owl:onProperty esp:parteDe ;
+          owl:someValuesFrom esp:Regional ] ;
+    rdfs:label "CRE"@pt-BR .
+
+esp:AME a owl:Class ;
+    rdfs:subClassOf esp:Federativa ;
+    rdfs:label "AME"@pt-BR .
+
+esp:atuaEm a owl:ObjectProperty ;
+    rdfs:label "atua em"@pt-BR ;
+    rdfs:domain esp:Casa ;
+    rdfs:range esp:AreaDeAtuacao .
+
+esp:AreaInfanciaJuventude a owl:Class ;
+    rdfs:subClassOf esp:AreaDeAtuacao ;
+    rdfs:label "Área de Infância e Juventude"@pt-BR .
+
+esp:AreaEstudoDoEvangelho a owl:Class ;
+    rdfs:subClassOf esp:AreaDeAtuacao ;
+    rdfs:label "Área de Estudo do Evangelho de Jesus"@pt-BR .
+
+esp:AreaPromocaoSocial a owl:Class ;
+    rdfs:subClassOf esp:AreaDeAtuacao ;
+    rdfs:label "Área de Promoção Social Espírita"@pt-BR .
+
+esp:AreaOrientacaoMediunica a owl:Class ;
+    rdfs:subClassOf esp:AreaDeAtuacao ;
+    rdfs:label "Área de Orientação Mediúnica"@pt-BR .
+
+esp:AreaEsperanto a owl:Class ;
+    rdfs:subClassOf esp:AreaDeAtuacao ;
+    rdfs:label "Área de Esperanto"@pt-BR .
+
+esp:AreaArte a owl:Class ;
+    rdfs:subClassOf esp:AreaDeAtuacao ;
+    rdfs:label "Área de Arte"@pt-BR .
+
+esp:AreaComunicacaoSocial a owl:Class ;
+    rdfs:subClassOf esp:AreaDeAtuacao ;
+    rdfs:label "Área de Comunicação Social Espírita"@pt-BR .
+
+esp:AreaFamilia a owl:Class ;
+    rdfs:subClassOf esp:AreaDeAtuacao ;
+    rdfs:label "Área da Família"@pt-BR .
+
+esp:AreaAtendimentoEspiritual a owl:Class ;
+    rdfs:subClassOf esp:AreaDeAtuacao ;
+    rdfs:label "Área de Atendimento Espiritual"@pt-BR .
+
+esp:AreaEstudoDoEspiritismo a owl:Class ;
+    rdfs:subClassOf esp:AreaDeAtuacao ;
+    rdfs:label "Área de Estudo do Espiritismo"@pt-BR .
