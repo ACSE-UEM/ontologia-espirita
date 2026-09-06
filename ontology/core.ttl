@@ -1,0 +1,29 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix esp: <https://w3id.org/ontologia-espirita/v1#> .
+
+<https://w3id.org/ontologia-espirita/v1> a owl:Ontology ;
+    rdfs:label "Ontologia do Movimento Espírita Brasileiro"@pt-BR ;
+    owl:versionInfo "1.0.0" .
+
+esp:Organizacao a owl:Class ;
+    rdfs:label "Organização"@pt-BR .
+
+esp:Pessoa a owl:Class ;
+    rdfs:label "Pessoa"@pt-BR .
+
+esp:Atividade a owl:Class ;
+    rdfs:label "Atividade"@pt-BR .
+
+esp:Localizacao a owl:Class ;
+    rdfs:label "Localização"@pt-BR .
+
+esp:AreaDeAtuacao a owl:Class ;
+    rdfs:label "Área de Atuação"@pt-BR .
+
+esp:parteDe a owl:ObjectProperty ;
+    rdfs:label "parte de"@pt-BR ;
+    rdfs:domain esp:Organizacao ;
+    rdfs:range esp:Organizacao .

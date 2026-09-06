@@ -1,0 +1,15 @@
+# CQ-00: Toda classe e propriedade da ontologia tem um rótulo em pt-BR?
+# (violação = entidade sem rdfs:label com tag de idioma pt-BR)
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?entidade
+WHERE {
+  { ?entidade a owl:Class }
+  UNION { ?entidade a owl:ObjectProperty }
+  UNION { ?entidade a owl:DatatypeProperty }
+  FILTER NOT EXISTS {
+    ?entidade rdfs:label ?rotulo .
+    FILTER(LANGMATCHES(LANG(?rotulo), "pt-BR"))
+  }
+}
