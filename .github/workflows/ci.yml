@@ -1,0 +1,23 @@
+name: Validação da ontologia
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build da imagem de validação
+        run: docker build -t ontologia-espirita-ci -f docker/Dockerfile docker/
+
+      - name: Rodar reasoner, competency questions e SHACL
+        run: docker run --rm -v "${{ github.workspace }}":/work ontologia-espirita-ci /work/docker/validate.sh
+
+      - name: Verificar que context.jsonld está atualizado
+        run: |
+          docker run --rm -v "${{ github.workspace }}":/work -w /work ontologia-espirita-ci python3 scripts/generate_context.py
+          git diff --exit-code ontology/context.jsonld || (echo "context.jsonld está desatualizado — rode scripts/generate_context.py e commit o resultado" && exit 1)
