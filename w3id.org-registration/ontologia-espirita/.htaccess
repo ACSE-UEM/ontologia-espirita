@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteCond %{HTTP_ACCEPT} !text/html.*
+RewriteCond %{REQUEST_URI} ^/ontologia-espirita/v1$
+RewriteRule ^ https://acse.github.io/ontologia-espirita/v1/core.ttl [R=303,L]
+RewriteRule ^v1/?$ https://acse.github.io/ontologia-espirita/v1/ [R=303,L]
