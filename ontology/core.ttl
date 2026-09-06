@@ -102,3 +102,34 @@ esp:AreaAtendimentoEspiritual a owl:Class ;
 esp:AreaEstudoDoEspiritismo a owl:Class ;
     rdfs:subClassOf esp:AreaDeAtuacao ;
     rdfs:label "Área de Estudo do Espiritismo"@pt-BR .
+
+esp:Voluntario a owl:Class ;
+    rdfs:subClassOf esp:Pessoa ;
+    rdfs:label "Voluntário"@pt-BR .
+
+esp:Dirigente a owl:Class ;
+    rdfs:subClassOf esp:Pessoa ;
+    rdfs:label "Dirigente"@pt-BR .
+
+esp:Frequentador a owl:Class ;
+    rdfs:subClassOf esp:Pessoa ;
+    rdfs:label "Frequentador"@pt-BR .
+
+esp:Beneficiario a owl:Class ;
+    rdfs:subClassOf esp:Pessoa ;
+    rdfs:label "Beneficiário"@pt-BR .
+
+esp:atua a owl:ObjectProperty ;
+    rdfs:label "atua"@pt-BR ;
+    rdfs:domain esp:Voluntario ;
+    rdfs:range esp:AreaDeAtuacao .
+
+esp:dirige a owl:ObjectProperty ;
+    rdfs:label "dirige"@pt-BR ;
+    rdfs:domain esp:Dirigente ;
+    rdfs:range esp:Casa .
+
+esp:frequenta a owl:ObjectProperty ;
+    rdfs:label "frequenta"@pt-BR ;
+    rdfs:domain esp:Frequentador ;
+    rdfs:range esp:Casa .

@@ -1,0 +1,11 @@
+# CQ-03: Voluntário, Dirigente, Frequentador e Beneficiário são todos
+# subclasses de Pessoa?
+# (violação = um desses papéis sem rdfs:subClassOf esp:Pessoa)
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?papel
+WHERE {
+  VALUES ?papel { esp:Voluntario esp:Dirigente esp:Frequentador esp:Beneficiario }
+  FILTER NOT EXISTS { ?papel rdfs:subClassOf esp:Pessoa }
+}
