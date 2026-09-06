@@ -843,7 +843,7 @@ if __name__ == "__main__":
 - [ ] **Step 3: Rodar o script dentro do container (mesmo ambiente do CI) e verificar a saída**
 
 ```bash
-docker run --rm -v "$(pwd)":/work -w /work ontologia-espirita-ci python3 scripts/generate_context.py
+docker run --rm --entrypoint python3 -v "$(pwd)":/work -w /work ontologia-espirita-ci scripts/generate_context.py
 python3 -c "
 import json
 with open('ontology/context.jsonld', encoding='utf-8') as f:
@@ -904,9 +904,20 @@ jobs:
 
       - name: Verificar que context.jsonld está atualizado
         run: |
-          docker run --rm -v "${{ github.workspace }}":/work -w /work ontologia-espirita-ci python3 scripts/generate_context.py
+          docker run --rm --entrypoint python3 -v "${{ github.workspace }}":/work -w /work ontologia-espirita-ci scripts/generate_context.py
           git diff --exit-code ontology/context.jsonld || (echo "context.jsonld está desatualizado — rode scripts/generate_context.py e commit o resultado" && exit 1)
 ```
+
+Nota: `docker/Dockerfile` define `ENTRYPOINT ["/bin/sh"]` (necessário para
+`docker run ... ontologia-espirita-ci /work/docker/validate.sh` funcionar
+como `/bin/sh /work/docker/validate.sh`). Isso significa que invocar
+`python3` diretamente como CMD sem `--entrypoint python3` faz o `/bin/sh`
+tentar interpretar `python3` como um *caminho de script*, não como um
+comando — falha sempre com "cannot open python3: No such file". Todo
+`docker run` deste plano que executa `python3 scripts/...py` diretamente
+(em vez de rodar `docker/validate.sh`) precisa de `--entrypoint python3`.
+Bug encontrado e corrigido durante a revisão da Task 10 (o `ci.yml`
+original, copiado verbatim deste plano, falhava sempre nesta etapa).
 
 - [ ] **Step 2: Escrever o template de PR com o checklist de revisão crítica**
 
@@ -1096,7 +1107,7 @@ partir da base do IBGE, usando o código como chave de cruzamento.
 3. Se `core.ttl` mudou, regenere `ontology/context.jsonld`:
    ```bash
    docker build -t ontologia-espirita-ci -f docker/Dockerfile docker/
-   docker run --rm -v "$(pwd)":/work -w /work ontologia-espirita-ci python3 scripts/generate_context.py
+   docker run --rm --entrypoint python3 -v "$(pwd)":/work -w /work ontologia-espirita-ci scripts/generate_context.py
    ```
 4. Rode a validação completa localmente antes de abrir o PR:
    ```bash
