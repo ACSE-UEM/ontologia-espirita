@@ -220,10 +220,16 @@ WHERE {
   UNION { ?entidade a owl:DatatypeProperty }
   FILTER NOT EXISTS {
     ?entidade rdfs:label ?rotulo .
-    FILTER(LANG(?rotulo) = "pt-BR")
+    FILTER(LANGMATCHES(LANG(?rotulo), "pt-BR"))
   }
 }
 ```
+
+Nota: `LANGMATCHES` (comparação case-insensitive por RFC 4647), não `LANG(?rotulo) = "pt-BR"` —
+o Jena (usado pelo ROBOT) normaliza tags de idioma para minúsculas (`pt-br`) ao
+parsear, então uma comparação de string exata contra `"pt-BR"` falha mesmo
+com dados corretos. Confirmado empiricamente durante a implementação da
+Task 3.
 
 - [ ] **Step 2: Rodar a validação e confirmar que falha (core.ttl não existe)**
 
