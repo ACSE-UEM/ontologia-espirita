@@ -1,0 +1,6 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix esp: <https://w3id.org/ontologia-espirita/v1#> .
+
+esp:UEM a esp:Federativa ;
+    rdfs:label "União Espírita Mineira"@pt-BR ;
+    rdfs:comment "Migrado do rascunho WebProtege original. Tipo mantido como Federativa (não refinado para Federação/Regional) até confirmação do papel exato na estrutura federativa pelo mantenedor do domínio."@pt-BR .
