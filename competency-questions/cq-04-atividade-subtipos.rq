@@ -1,0 +1,11 @@
+# CQ-04: Evento, Ação Social e Estudo Doutrinário são todos subclasses de
+# Atividade?
+# (violação = um desses tipos sem rdfs:subClassOf esp:Atividade)
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?tipo
+WHERE {
+  VALUES ?tipo { esp:Evento esp:AcaoSocial esp:EstudoDoutrinario }
+  FILTER NOT EXISTS { ?tipo rdfs:subClassOf esp:Atividade }
+}
