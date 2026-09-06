@@ -347,16 +347,21 @@ Três camadas, sobre o `make` e o Docker que já existem.
 
 ### `examples/mg.ttl` — o movimento mineiro como dado
 
-Um ABox de exemplo com as entidades reais citadas na entrevista: FEB, CFN,
-UEM, COFEMG, Regional Triângulo, 16ª CRE, AME Uberaba, Casa Luz do Caminho,
-uma casa conhecida mas não adesa, palestra pública, reunião mediúnica,
-evangelização infantil, uma Semana Espírita como `Evento`, e as pessoas
-(Maria voluntária de casa, João voluntário de órgão na ACSE, Ana coordenadora
-de atividade, Paulo coordenador de área, Rosa assistida, Antônio
-frequentador).
+Divisão de responsabilidade entre os dois ABox, para não duplicar entidade:
 
-Não é dado de produção. É o caso de teste que exercita todas as decisões
-acima de uma vez.
+- **`ontology/reference-catalog.ttl`** guarda o que é **real e estável** —
+  FEB, CFN, UEM, COFEMG, Regional Triângulo, 16ª CRE, AME Uberaba, as dez
+  áreas e os tipos de atividade. É o propósito declarado do arquivo no
+  README.
+- **`examples/mg.ttl`** guarda o que é **ficção de teste** e se apoia no
+  catálogo: casas (uma adesa, uma só conhecida, uma virtual), atividades
+  concretas, uma Semana Espírita como evento, uma atividade periódica de
+  órgão (para exercitar D18) e as pessoas — Maria voluntária de casa, João
+  voluntário de órgão na ACSE, Ana coordenadora de atividade, Paulo
+  coordenador de área, Rosa assistida, Antônio frequentador.
+
+Nenhum dos dois é dado de produção de casas. Juntos, são o caso de teste que
+exercita todas as decisões acima de uma vez.
 
 ### `make verify` — testes que quebram o CI
 
