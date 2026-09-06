@@ -1,7 +1,7 @@
 # Revisão do modelo de domínio — design
 
 Data: 2026-09-06
-Status: aprovado (entrevista com o mantenedor do domínio em 2026-09-06)
+Status: aprovado e revisado (entrevista e revisão com o mantenedor do domínio em 2026-09-06)
 Substitui: partes de `docs/superpowers/specs/2026-09-06-ontologia-v1-design.md`
 
 ## 1. Motivação
@@ -52,6 +52,8 @@ Cada linha veio de uma resposta direta do mantenedor na entrevista.
 | D15 | Nível nacional **entra** | `FederativaNacional` (FEB) e seu unificador (CFN) |
 | D16 | Sem sufixo "Espírita" em termo autoexplicativo | `esp:Casa`, não `esp:CasaEspirita` — o namespace já diz |
 | D17 | Existe casa **só virtual**, mas o vínculo municipal é legal e obrigatório | mantém `Casa ⊑ ∃localizadaEm.Municipio`; entra `modalidade` como atributo |
+| D18 | Órgãos **também** têm atividades, não só eventos | `realiza` sem restrição de combinação; a distinção é periódica × datada, não quem realiza |
+| D19 | Atividade e evento **informam modalidade** | `modalidade` exigida em `Realizacao`; recomendada em `Casa` |
 
 ### Decisão de abordagem
 
@@ -157,9 +159,21 @@ município **não representa presença física ali** e infla o indicador. Com
 `modalidade` no modelo, o painel consegue separar as duas leituras; sem ela,
 não conseguiria nem saber que o problema existe.
 
-**Ponto para você confirmar na revisão:** uma atividade também precisa de
-`modalidade`? Uma palestra pública transmitida ao vivo é comum, e hoje o
-modelo não sabe distingui-la da presencial.
+`modalidade` não é só da casa: **toda `Realizacao` também informa a sua** —
+atividade e evento igualmente. Uma palestra pública transmitida ao vivo e uma
+presencial são coisas diferentes para quem planeja alcance, e o modelo
+precisa distingui-las.
+
+Em SHACL isso vira exigência (`minCount 1`) sobre `Atividade` e `Evento`.
+Sobre `Casa` a mesma modalidade fica **recomendada, não exigida**: o cadastro
+federativo existente não tem esse campo, e torná-lo obrigatório invalidaria
+todas as casas já cadastradas de uma vez. Vira aviso, não erro, até o
+cadastro alcançar o modelo.
+
+Como a propriedade se aplica a `Casa` e a `Realizacao`, que não têm supertipo
+comum, ela é declarada **sem `rdfs:domain`** — dois domínios em OWL
+significariam interseção, não união. O alvo fica em SHACL, mesmo padrão de
+`coordena` (§8).
 
 ## 6. Modelo — realizações
 
@@ -175,19 +189,19 @@ evento.
 
 ### Quem realiza o quê
 
-`realiza` tem domínio `Instituicao` e imagem `Realizacao` — mas os dois lados
-não se combinam livremente:
+`realiza` tem domínio `Instituicao` e imagem `Realizacao`, e os dois lados se
+combinam livremente: **órgãos também têm atividades**, não só eventos. Uma
+CRE com reunião mensal de dirigentes realiza uma atividade tanto quanto uma
+casa com sua palestra de quinta.
 
-- **Atividade** é o que a **casa** faz periodicamente (D4, palavras do
-  mantenedor). Só `Casa` realiza `Atividade`.
-- **Evento** qualquer instituição realiza. Uma confraternização estadual da
-  UEM e uma Semana Espírita de uma casa são ambas eventos.
+Isso corrige uma restrição que chegou a ser proposta neste design ("só casa
+realiza atividade") e foi derrubada na revisão. O que separa `Atividade` de
+`Evento` é a **natureza da realização** — periódica contra datada — e não
+quem a realiza. A frase de origem ("atividade é algo que a Casa realiza
+periodicamente") define o termo pelo caso mais comum; não restringe o
+sujeito.
 
-A restrição fica em SHACL, não em OWL: manter `realiza` com um só domínio
-evita duplicar a propriedade, e a regra "só casa realiza atividade" é
-exatamente o tipo de coisa que a abordagem A põe em shape. **Ponto para você
-confirmar na revisão:** um órgão (uma CRE, uma AME) chega a ter atividade
-periódica própria, ou tudo que ele faz com data é evento?
+Nenhuma regra SHACL limita a combinação.
 
 As subclasses `AcaoSocial` e `EstudoDoutrinario` do v1 desaparecem do TBox —
 são tipos de atividade, e passam ao catálogo.
@@ -302,7 +316,7 @@ Data properties:
 | `sigla` | `Instituicao`, `AreaFederativa` | `xsd:string` | UEM, COFEMG, ACSE |
 | `nomeLocal` | `Orgao` | `xsd:string` | "CRE", "Regional", "URE", "Polo" |
 | `statusAdesao` | `Casa` | `xsd:string` | enum via SHACL |
-| `modalidade` | `Casa` | `xsd:string` | `presencial` \| `virtual` \| `hibrida`, enum via SHACL |
+| `modalidade` | — | `xsd:string` | `presencial` \| `virtual` \| `hibrida`; alvo (`Casa`, `Realizacao`) e enum só em SHACL |
 | `codigoIBGE` | `Municipio` | `xsd:string` | |
 | `periodicidade` | `Atividade` | `xsd:string` | |
 | `dataInicio` | `Evento` | `xsd:date` | |
@@ -426,7 +440,7 @@ código. Fora deste design; entra se for pedido.
 | `ontology/core.ttl` | reescrito |
 | `ontology/reference-catalog.ttl` | UEM ganha tipo definido; entram FEB, CFN, COFEMG, Regional Triângulo, 16ª CRE, AME Uberaba, as 10 áreas e os tipos de atividade |
 | `ontology/context.jsonld` | regerado por `make context` — nunca editado à mão |
-| `shapes/reference-catalog.shacl.ttl` | atualizado: enums de `statusAdesao` e `modalidade`, alvo de `coordena`, "só casa realiza atividade", `nomeLocal` obrigatório em órgão regional |
+| `shapes/reference-catalog.shacl.ttl` | atualizado: enums de `statusAdesao` e `modalidade`, `modalidade` exigida em `Realizacao` e recomendada em `Casa`, alvo de `coordena`, `nomeLocal` obrigatório em órgão regional |
 | `competency-questions/` | 1 deletada, 3 reescritas, 4 novas |
 | `examples/mg.ttl` | novo |
 | `examples/contra-exemplos.ttl` | novo — fixture inválida, para o `make contra-exemplos` |
