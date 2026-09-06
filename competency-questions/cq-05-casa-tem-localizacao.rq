@@ -1,0 +1,16 @@
+# CQ-05: Toda Casa é modelada como tendo uma localização (Município)?
+# (violação = esp:Casa sem restrição owl:someValuesFrom esp:Municipio em esp:localizadaEm)
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?casa
+WHERE {
+  VALUES ?casa { esp:Casa }
+  FILTER NOT EXISTS {
+    ?casa rdfs:subClassOf ?restricao .
+    ?restricao a owl:Restriction ;
+        owl:onProperty esp:localizadaEm ;
+        owl:someValuesFrom esp:Municipio .
+  }
+}

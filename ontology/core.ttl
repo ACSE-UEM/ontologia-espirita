@@ -155,3 +155,38 @@ esp:frequenta a owl:ObjectProperty ;
     rdfs:label "frequenta"@pt-BR ;
     rdfs:domain esp:Frequentador ;
     rdfs:range esp:Casa .
+
+esp:Municipio a owl:Class ;
+    rdfs:subClassOf esp:Localizacao ;
+    rdfs:label "Município"@pt-BR .
+
+esp:UnidadeFederativa a owl:Class ;
+    rdfs:subClassOf esp:Localizacao ;
+    rdfs:label "Unidade Federativa"@pt-BR .
+
+esp:localizadaEm a owl:ObjectProperty ;
+    rdfs:label "localizada em"@pt-BR ;
+    rdfs:domain esp:Casa ;
+    rdfs:range esp:Municipio .
+
+esp:pertenceA a owl:ObjectProperty ;
+    rdfs:label "pertence a"@pt-BR ;
+    rdfs:domain esp:Municipio ;
+    rdfs:range esp:UnidadeFederativa .
+
+esp:codigoIBGE a owl:DatatypeProperty ;
+    rdfs:label "código IBGE"@pt-BR ;
+    rdfs:domain esp:Municipio ;
+    rdfs:range xsd:string .
+
+esp:Casa rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty esp:localizadaEm ;
+    owl:someValuesFrom esp:Municipio
+] .
+
+esp:Municipio rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty esp:pertenceA ;
+    owl:someValuesFrom esp:UnidadeFederativa
+] .
