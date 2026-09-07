@@ -1,0 +1,139 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix esp: <https://w3id.org/ontologia-espirita/v1#> .
+
+##
+## ABox de exemplo — ficção de teste, não dado de produção.
+##
+## Apoia-se no catálogo (ontology/reference-catalog.ttl) para as entidades
+## federativas reais e para os tipos de atividade. O que está aqui são casas,
+## realizações e pessoas inventadas, escolhidas para exercitar cada decisão do
+## design de uma vez só.
+##
+
+##
+## Casas — uma adesa, uma só conhecida, uma virtual
+##
+
+esp:CasaLuzDoCaminho a esp:Centro ;
+    rdfs:label "Centro Espírita Luz do Caminho"@pt-BR ;
+    esp:localizadaEm esp:Uberaba ;
+    esp:modalidade "presencial" ;
+    esp:adesaA esp:UEM ;
+    esp:statusAdesao "Adesa" ;
+    esp:atendidaPor esp:AMEUberaba , esp:CRE16 , esp:RegionalTriangulo ;
+    esp:realiza esp:PalestraLuzQuinta , esp:ReuniaoMediunicaLuz , esp:EvangelizacaoLuz .
+
+esp:CasaFraternidade a esp:Centro ;
+    rdfs:label "Centro Espírita Fraternidade"@pt-BR ;
+    rdfs:comment "Casa conhecida pelo movimento mas sem adesão. Prova que esp:adesaA é opcional: a autonomia da casa é dado válido, não erro."@pt-BR ;
+    esp:localizadaEm esp:Uberaba ;
+    esp:modalidade "presencial" ;
+    esp:statusAdesao "Conhecido" .
+
+esp:CasaEsperancaVirtual a esp:Centro ;
+    rdfs:label "Grupo Espírita Esperança"@pt-BR ;
+    rdfs:comment "Funciona só online. Mantém vínculo municipal por exigência legal — o município é o vínculo jurídico, não prova de presença física."@pt-BR ;
+    esp:localizadaEm esp:Uberaba ;
+    esp:modalidade "virtual" ;
+    esp:adesaA esp:UEM ;
+    esp:statusAdesao "Pendente" .
+
+##
+## Atividades da casa — periódicas
+##
+
+esp:PalestraLuzQuinta a esp:Atividade ;
+    rdfs:label "Palestra pública das quintas"@pt-BR ;
+    esp:doTipo esp:PalestraPublica ;
+    esp:periodicidade "semanal" ;
+    esp:modalidade "hibrida" ;
+    esp:temPublicoAlvo esp:Antonio .
+
+esp:ReuniaoMediunicaLuz a esp:Atividade ;
+    rdfs:label "Reunião mediúnica de terça"@pt-BR ;
+    esp:doTipo esp:ReuniaoMediunica ;
+    esp:periodicidade "semanal" ;
+    esp:modalidade "presencial" .
+
+esp:EvangelizacaoLuz a esp:Atividade ;
+    rdfs:label "Evangelização infantil de domingo"@pt-BR ;
+    esp:doTipo esp:EvangelizacaoInfantil ;
+    esp:periodicidade "semanal" ;
+    esp:modalidade "presencial" .
+
+##
+## Atividade de órgão — prova que atividade não é exclusividade da casa
+##
+
+esp:CRE16 esp:realiza esp:ReuniaoDirigentesCRE16 .
+
+esp:ReuniaoDirigentesCRE16 a esp:Atividade ;
+    rdfs:label "Reunião mensal de dirigentes da 16ª CRE"@pt-BR ;
+    esp:doTipo esp:ReuniaoDeDirigentes ;
+    esp:periodicidade "mensal" ;
+    esp:modalidade "virtual" .
+
+##
+## Evento — datado, com início e fim
+##
+
+esp:AMEUberaba esp:realiza esp:SemanaEspiritaUberaba2026 .
+
+esp:SemanaEspiritaUberaba2026 a esp:Evento ;
+    rdfs:label "XII Semana Espírita de Uberaba"@pt-BR ;
+    esp:edicao "XII" ;
+    esp:dataInicio "2026-10-12"^^xsd:date ;
+    esp:dataFim "2026-10-18"^^xsd:date ;
+    esp:modalidade "presencial" .
+
+##
+## Pessoas
+##
+
+esp:Maria a esp:Voluntario ;
+    rdfs:label "Maria"@pt-BR ;
+    rdfs:comment "Voluntária de casa: dá passes, sem vínculo com área federativa."@pt-BR ;
+    esp:atuaEm esp:CasaLuzDoCaminho .
+
+esp:Joao a esp:Voluntario ;
+    rdfs:label "João"@pt-BR ;
+    rdfs:comment "Voluntário de órgão. Mesmo papel que Maria, lugar diferente."@pt-BR ;
+    esp:atuaEm esp:CRE16 ;
+    esp:atuaNaArea esp:ACSE .
+
+esp:Ana a esp:Coordenador ;
+    rdfs:label "Ana"@pt-BR ;
+    esp:atuaEm esp:CasaLuzDoCaminho ;
+    esp:coordena esp:EvangelizacaoLuz .
+
+esp:Paulo a esp:Coordenador ;
+    rdfs:label "Paulo"@pt-BR ;
+    rdfs:comment "Coordenador de área num órgão — mesmo papel de Ana, alvo de outro tipo."@pt-BR ;
+    esp:atuaEm esp:CRE16 ;
+    esp:atuaNaArea esp:AIJ ;
+    esp:coordena esp:AIJ .
+
+esp:Carlos a esp:Dirigente ;
+    rdfs:label "Carlos"@pt-BR ;
+    esp:dirige esp:CasaLuzDoCaminho .
+
+esp:Antonio a esp:Frequentador ;
+    rdfs:label "Antônio"@pt-BR ;
+    esp:frequenta esp:CasaLuzDoCaminho .
+
+esp:Rosa a esp:Assistido ;
+    rdfs:label "Rosa"@pt-BR ;
+    rdfs:comment "Recebe amparo social. Termo correto é assistida, não beneficiária."@pt-BR .
+
+##
+## Área estruturada numa casa — o caso raro que o modelo permite sem exigir
+##
+
+esp:CasaLuzDoCaminho esp:mantemArea esp:AIJ .
+
+##
+## Áreas do órgão — o caso comum
+##
+
+esp:CRE16 esp:mantemArea esp:AIJ , esp:ACSE , esp:APSE .

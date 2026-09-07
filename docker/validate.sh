@@ -11,11 +11,10 @@ robot reason --input ontology/core.ttl --reasoner ELK --output /tmp/core-reasone
 
 echo "== 3/4: competency questions (robot verify) =="
 if [ -d competency-questions ] && ls competency-questions/*.rq >/dev/null 2>&1; then
-    if [ -f ontology/reference-catalog.ttl ]; then
-        robot merge --input ontology/core.ttl --input ontology/reference-catalog.ttl verify --queries competency-questions/*.rq
-    else
-        robot verify --input ontology/core.ttl --queries competency-questions/*.rq
-    fi
+    ENTRADAS="--input ontology/core.ttl"
+    [ -f ontology/reference-catalog.ttl ] && ENTRADAS="$ENTRADAS --input ontology/reference-catalog.ttl"
+    [ -f examples/mg.ttl ] && ENTRADAS="$ENTRADAS --input examples/mg.ttl"
+    robot merge $ENTRADAS verify --queries competency-questions/*.rq
 else
     echo "  (nenhum arquivo .rq encontrado ainda — pulando)"
 fi

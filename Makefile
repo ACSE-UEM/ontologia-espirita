@@ -42,7 +42,7 @@ reason: build
 
 verify: build
 	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
-		"robot merge --input ontology/core.ttl --input ontology/reference-catalog.ttl verify --queries competency-questions/*.rq"
+		"robot merge --input ontology/core.ttl --input ontology/reference-catalog.ttl --input examples/mg.ttl verify --queries competency-questions/*.rq"
 
 shacl: build
 	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
