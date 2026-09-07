@@ -4,7 +4,7 @@
 
 ## Este PR toca um elemento crítico?
 
-Elementos críticos: a hierarquia de instituições e suas axiomas de
+Elementos críticos: a hierarquia de instituições e seus axiomas de
 disjunção (`esp:Instituicao`, `esp:Casa`, `esp:Orgao`, `esp:Federativa`,
 `esp:Atividade`, `esp:Evento`, `esp:AreaFederativa`), ou qualquer
 classe/propriedade já consumida por um dos apps (voluntário, casa, painel

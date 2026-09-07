@@ -15,7 +15,7 @@ FALHOU=0
 
 if robot reason --input "$MESCLADO" --reasoner ELK --output /tmp/contra-reasoned.ttl >/tmp/contra-reason.log 2>&1; then
     echo "FALHA: robot reason nao detectou inconsistencia no grafo mesclado de contra-exemplos"
-    echo "       As axiomas owl:disjointWith podem nao estar sendo verificadas por nada."
+    echo "       Os axiomas owl:disjointWith podem nao estar sendo verificados por nada."
     cat /tmp/contra-reason.log
     FALHOU=1
 else

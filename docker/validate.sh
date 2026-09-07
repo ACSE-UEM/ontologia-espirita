@@ -25,9 +25,11 @@ fi
 echo "== 4/4: SHACL (modelo + catálogo + exemplos) =="
 robot merge --input ontology/core.ttl --input ontology/reference-catalog.ttl --input examples/mg.ttl \
     --output /tmp/dados-shacl.ttl
+FALHOU=0
 for shape in shapes/*.shacl.ttl; do
     echo "  -- $shape --"
-    pyshacl -s "$shape" -d /tmp/dados-shacl.ttl -i rdfs
+    pyshacl -s "$shape" -d /tmp/dados-shacl.ttl -i rdfs || FALHOU=1
 done
+[ "$FALHOU" -eq 0 ] || { echo "== SHACL encontrou violacoes =="; exit 1; }
 
 echo "== validação concluída com sucesso =="

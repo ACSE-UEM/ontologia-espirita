@@ -27,7 +27,7 @@
 
 ## O que é um elemento crítico
 
-Qualquer mudança na hierarquia de instituições e suas axiomas de disjunção
+Qualquer mudança na hierarquia de instituições e seus axiomas de disjunção
 — `esp:Instituicao`, `esp:Casa`, `esp:Orgao`, `esp:Federativa`,
 `esp:Atividade`, `esp:Evento`, `esp:AreaFederativa` — ou em qualquer
 classe/propriedade já consumida por um dos apps (voluntário, casa, painel
