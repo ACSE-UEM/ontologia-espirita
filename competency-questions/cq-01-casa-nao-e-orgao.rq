@@ -1,0 +1,11 @@
+# CQ-01: Nenhuma instituição é, ao mesmo tempo, Casa e Órgão.
+# (violação = indivíduo tipado como Casa e como Órgão, direta ou indiretamente)
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?instituicao
+WHERE {
+  ?instituicao a ?tipoCasa , ?tipoOrgao .
+  ?tipoCasa rdfs:subClassOf* esp:Casa .
+  ?tipoOrgao rdfs:subClassOf* esp:Orgao .
+}

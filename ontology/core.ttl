@@ -6,155 +6,153 @@
 
 <https://w3id.org/ontologia-espirita/v1> a owl:Ontology ;
     rdfs:label "Ontologia do Movimento Espírita Brasileiro"@pt-BR ;
+    rdfs:comment "Cobre o movimento espírita kardecista organizado no Brasil: casas espíritas de orientação kardecista e a estrutura federativa que as apoia. Umbanda, candomblé e outras vertentes não fazem parte do domínio desta ontologia."@pt-BR ;
     owl:versionInfo "1.0.0" .
 
-esp:Organizacao a owl:Class ;
-    rdfs:label "Organização"@pt-BR .
+##
+## Classes de topo
+##
+
+esp:Instituicao a owl:Class ;
+    rdfs:label "Instituição"@pt-BR ;
+    rdfs:comment "Qualquer entidade institucional do movimento: uma casa ou um órgão."@pt-BR .
 
 esp:Pessoa a owl:Class ;
     rdfs:label "Pessoa"@pt-BR .
 
-esp:Atividade a owl:Class ;
-    rdfs:label "Atividade"@pt-BR .
+esp:Realizacao a owl:Class ;
+    rdfs:label "Realização"@pt-BR ;
+    rdfs:comment "O que uma instituição realiza: atividade (periódica) ou evento (datado)."@pt-BR .
+
+esp:TipoDeAtividade a owl:Class ;
+    rdfs:label "Tipo de Atividade"@pt-BR ;
+    rdfs:comment "Vocabulário de tipos de atividade. As instâncias vivem no catálogo de referência, não aqui."@pt-BR .
+
+esp:AreaFederativa a owl:Class ;
+    rdfs:label "Área Federativa"@pt-BR ;
+    rdfs:comment "Área de trabalho do movimento federativo. As dez áreas são indivíduos no catálogo de referência."@pt-BR .
 
 esp:Localizacao a owl:Class ;
     rdfs:label "Localização"@pt-BR .
 
-esp:AreaDeAtuacao a owl:Class ;
-    rdfs:label "Área de Atuação"@pt-BR .
-
-esp:parteDe a owl:ObjectProperty ;
-    rdfs:label "parte de"@pt-BR ;
-    rdfs:domain esp:Organizacao ;
-    rdfs:range esp:Organizacao .
-
-esp:Federativa a owl:Class ;
-    rdfs:subClassOf esp:Organizacao ;
-    rdfs:label "Federativa"@pt-BR .
+##
+## Instituições
+##
 
 esp:Casa a owl:Class ;
-    rdfs:subClassOf esp:Organizacao ,
-        [ a owl:Restriction ;
-          owl:onProperty esp:parteDe ;
-          owl:someValuesFrom esp:Federativa ] ;
-    rdfs:label "Casa"@pt-BR .
+    rdfs:subClassOf esp:Instituicao ;
+    owl:disjointWith esp:Orgao ;
+    rdfs:label "Casa"@pt-BR ;
+    rdfs:comment "Instituição espírita autônoma de base. Decide por conta própria se adere ao movimento federativo. Não é órgão."@pt-BR .
 
-esp:Federacao a owl:Class ;
+esp:Orgao a owl:Class ;
+    rdfs:subClassOf esp:Instituicao ;
+    rdfs:label "Órgão"@pt-BR ;
+    rdfs:comment "Instituição de unificação e coordenação do movimento."@pt-BR .
+
+esp:Centro a owl:Class ;
+    rdfs:subClassOf esp:Casa ;
+    rdfs:label "Centro"@pt-BR ;
+    rdfs:comment "O caso comum de casa: centro espírita que realiza atividades regulares."@pt-BR .
+
+esp:Hospital a owl:Class ;
+    rdfs:subClassOf esp:Casa ;
+    rdfs:label "Hospital"@pt-BR .
+
+esp:Lar a owl:Class ;
+    rdfs:subClassOf esp:Casa ;
+    rdfs:label "Lar"@pt-BR ;
+    rdfs:comment "Abrigo, asilo, casa de acolhimento."@pt-BR .
+
+esp:Livraria a owl:Class ;
+    rdfs:subClassOf esp:Casa ;
+    rdfs:label "Livraria"@pt-BR ;
+    rdfs:comment "Inclui editora espírita."@pt-BR .
+
+esp:Federativa a owl:Class ;
+    rdfs:subClassOf esp:Orgao ;
+    rdfs:label "Federativa"@pt-BR .
+
+esp:FederativaNacional a owl:Class ;
     rdfs:subClassOf esp:Federativa ;
-    rdfs:label "Federação"@pt-BR .
+    rdfs:label "Federativa Nacional"@pt-BR .
 
-esp:Regional a owl:Class ;
+esp:FederativaEstadual a owl:Class ;
     rdfs:subClassOf esp:Federativa ;
-    rdfs:label "Regional"@pt-BR .
+    rdfs:label "Federativa Estadual"@pt-BR .
 
-esp:CRE a owl:Class ;
-    rdfs:subClassOf esp:Federativa ,
-        [ a owl:Restriction ;
-          owl:onProperty esp:parteDe ;
-          owl:someValuesFrom esp:Regional ] ;
-    rdfs:label "CRE"@pt-BR .
+esp:OrgaoUnificador a owl:Class ;
+    rdfs:subClassOf esp:Orgao ;
+    rdfs:label "Órgão Unificador"@pt-BR ;
+    rdfs:comment "Órgão interno de uma federativa, responsável por orientar e organizar o movimento no seu âmbito. Ex.: COFEMG dentro da UEM."@pt-BR .
 
-esp:AME a owl:Class ;
-    rdfs:subClassOf esp:Federativa ;
-    rdfs:label "AME"@pt-BR .
+esp:OrgaoRegional a owl:Class ;
+    rdfs:subClassOf esp:Orgao ;
+    rdfs:label "Órgão Regional"@pt-BR ;
+    rdfs:comment "Recorte regional de uma federativa estadual. O nome local (Regional, CRE, URE, Polo) vai em esp:nomeLocal."@pt-BR .
 
-esp:atuaEm a owl:ObjectProperty ;
-    rdfs:label "atua em"@pt-BR ;
-    rdfs:domain esp:Casa ;
-    rdfs:range esp:AreaDeAtuacao .
+esp:MacroRegiao a owl:Class ;
+    rdfs:subClassOf esp:OrgaoRegional ;
+    rdfs:label "Macrorregião"@pt-BR .
 
-esp:AreaInfanciaJuventude a owl:Class ;
-    rdfs:subClassOf esp:AreaDeAtuacao ;
-    rdfs:label "Área de Infância e Juventude"@pt-BR .
+esp:MicroRegiao a owl:Class ;
+    rdfs:subClassOf esp:OrgaoRegional ;
+    rdfs:label "Microrregião"@pt-BR .
 
-esp:AreaEstudoDoEvangelho a owl:Class ;
-    rdfs:subClassOf esp:AreaDeAtuacao ;
-    rdfs:label "Área de Estudo do Evangelho de Jesus"@pt-BR .
+esp:OrgaoMunicipal a owl:Class ;
+    rdfs:subClassOf esp:Orgao ;
+    rdfs:label "Órgão Municipal"@pt-BR ;
+    rdfs:comment "Órgão municipal ou intermunicipal de apoio às casas. Ex.: AME, CEM."@pt-BR .
 
-esp:AreaPromocaoSocial a owl:Class ;
-    rdfs:subClassOf esp:AreaDeAtuacao ;
-    rdfs:label "Área de Promoção Social Espírita"@pt-BR .
+##
+## Realizações
+##
 
-esp:AreaOrientacaoMediunica a owl:Class ;
-    rdfs:subClassOf esp:AreaDeAtuacao ;
-    rdfs:label "Área de Orientação Mediúnica"@pt-BR .
+esp:Atividade a owl:Class ;
+    rdfs:subClassOf esp:Realizacao ;
+    owl:disjointWith esp:Evento ;
+    rdfs:label "Atividade"@pt-BR ;
+    rdfs:comment "Realização periódica. Casas e órgãos realizam atividades."@pt-BR .
 
-esp:AreaEsperanto a owl:Class ;
-    rdfs:subClassOf esp:AreaDeAtuacao ;
-    rdfs:label "Área de Esperanto"@pt-BR .
+esp:Evento a owl:Class ;
+    rdfs:subClassOf esp:Realizacao ;
+    rdfs:label "Evento"@pt-BR ;
+    rdfs:comment "Realização datada, com início e fim determinados. Não é uma atividade."@pt-BR .
 
-esp:AreaArte a owl:Class ;
-    rdfs:subClassOf esp:AreaDeAtuacao ;
-    rdfs:label "Área de Arte"@pt-BR .
-
-esp:AreaComunicacaoSocial a owl:Class ;
-    rdfs:subClassOf esp:AreaDeAtuacao ;
-    rdfs:label "Área de Comunicação Social Espírita"@pt-BR .
-
-esp:AreaFamilia a owl:Class ;
-    rdfs:subClassOf esp:AreaDeAtuacao ;
-    rdfs:label "Área da Família"@pt-BR .
-
-esp:AreaAtendimentoEspiritual a owl:Class ;
-    rdfs:subClassOf esp:AreaDeAtuacao ;
-    rdfs:label "Área de Atendimento Espiritual"@pt-BR .
-
-esp:AreaEstudoDoEspiritismo a owl:Class ;
-    rdfs:subClassOf esp:AreaDeAtuacao ;
-    rdfs:label "Área de Estudo do Espiritismo"@pt-BR .
+##
+## Pessoas e papéis
+##
 
 esp:Voluntario a owl:Class ;
     rdfs:subClassOf esp:Pessoa ;
-    rdfs:label "Voluntário"@pt-BR .
+    rdfs:label "Voluntário"@pt-BR ;
+    rdfs:comment "Atua em uma instituição — casa ou órgão — e pode atuar em uma ou mais áreas federativas."@pt-BR .
+
+esp:Coordenador a owl:Class ;
+    rdfs:subClassOf esp:Voluntario ;
+    rdfs:label "Coordenador"@pt-BR ;
+    rdfs:comment "Voluntário que responde por uma atividade ou por uma área federativa."@pt-BR .
 
 esp:Dirigente a owl:Class ;
     rdfs:subClassOf esp:Pessoa ;
     rdfs:label "Dirigente"@pt-BR .
 
-esp:Frequentador a owl:Class ;
+esp:PublicoAlvo a owl:Class ;
     rdfs:subClassOf esp:Pessoa ;
+    rdfs:label "Público-alvo"@pt-BR .
+
+esp:Frequentador a owl:Class ;
+    rdfs:subClassOf esp:PublicoAlvo ;
     rdfs:label "Frequentador"@pt-BR .
 
-esp:Beneficiario a owl:Class ;
-    rdfs:subClassOf esp:Pessoa ;
-    rdfs:label "Beneficiário"@pt-BR .
+esp:Assistido a owl:Class ;
+    rdfs:subClassOf esp:PublicoAlvo ;
+    rdfs:label "Assistido"@pt-BR ;
+    rdfs:comment "Pessoa que recebe amparo social ou espiritual."@pt-BR .
 
-esp:Evento a owl:Class ;
-    rdfs:subClassOf esp:Atividade ;
-    rdfs:label "Evento"@pt-BR .
-
-esp:AcaoSocial a owl:Class ;
-    rdfs:subClassOf esp:Atividade ;
-    rdfs:label "Ação Social"@pt-BR .
-
-esp:EstudoDoutrinario a owl:Class ;
-    rdfs:subClassOf esp:Atividade ;
-    rdfs:label "Estudo Doutrinário"@pt-BR .
-
-esp:realiza a owl:ObjectProperty ;
-    rdfs:label "realiza"@pt-BR ;
-    rdfs:domain esp:Casa ;
-    rdfs:range esp:Atividade .
-
-esp:temPublicoAlvo a owl:ObjectProperty ;
-    rdfs:label "tem público-alvo"@pt-BR ;
-    rdfs:domain esp:Atividade ;
-    rdfs:range esp:Beneficiario .
-
-esp:atua a owl:ObjectProperty ;
-    rdfs:label "atua"@pt-BR ;
-    rdfs:domain esp:Voluntario ;
-    rdfs:range esp:AreaDeAtuacao .
-
-esp:dirige a owl:ObjectProperty ;
-    rdfs:label "dirige"@pt-BR ;
-    rdfs:domain esp:Dirigente ;
-    rdfs:range esp:Casa .
-
-esp:frequenta a owl:ObjectProperty ;
-    rdfs:label "frequenta"@pt-BR ;
-    rdfs:domain esp:Frequentador ;
-    rdfs:range esp:Casa .
+##
+## Localização
+##
 
 esp:Municipio a owl:Class ;
     rdfs:subClassOf esp:Localizacao ;
@@ -162,11 +160,99 @@ esp:Municipio a owl:Class ;
 
 esp:UnidadeFederativa a owl:Class ;
     rdfs:subClassOf esp:Localizacao ;
-    rdfs:label "Unidade Federativa"@pt-BR .
+    rdfs:label "Unidade Federativa"@pt-BR ;
+    rdfs:comment "Estado brasileiro. Termo do IBGE — sem relação com o movimento federativo espírita."@pt-BR .
+
+##
+## Propriedades de objeto
+##
+
+esp:parteDe a owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:label "parte de"@pt-BR ;
+    rdfs:domain esp:Orgao ;
+    rdfs:range esp:Orgao ;
+    rdfs:comment "Vale apenas entre órgãos. Uma casa nunca é parte de um órgão — ela adere."@pt-BR .
+
+esp:orgaoInternoDe a owl:ObjectProperty ;
+    rdfs:subPropertyOf esp:parteDe ;
+    rdfs:label "órgão interno de"@pt-BR ;
+    rdfs:domain esp:OrgaoUnificador ;
+    rdfs:range esp:Federativa .
+
+esp:adesaA a owl:ObjectProperty ;
+    rdfs:label "adesa a"@pt-BR ;
+    rdfs:domain esp:Casa ;
+    rdfs:range esp:Federativa ;
+    rdfs:comment "Vínculo formal e opcional. Uma casa sem adesão é dado válido."@pt-BR .
+
+esp:atendidaPor a owl:ObjectProperty ;
+    rdfs:label "atendida por"@pt-BR ;
+    rdfs:domain esp:Casa ;
+    rdfs:range esp:Orgao ;
+    rdfs:comment "Caminho administrativo de apoio. Independente da adesão."@pt-BR .
+
+esp:abrange a owl:ObjectProperty ;
+    rdfs:label "abrange"@pt-BR ;
+    rdfs:domain esp:Orgao ;
+    rdfs:range esp:Municipio ;
+    rdfs:comment "Municípios cobertos por um órgão. É o que torna representável a AME intermunicipal."@pt-BR .
+
+esp:mantemArea a owl:ObjectProperty ;
+    rdfs:label "mantém área"@pt-BR ;
+    rdfs:domain esp:Instituicao ;
+    rdfs:range esp:AreaFederativa ;
+    rdfs:comment "Comum em órgão, raro em casa. Nunca obrigatório."@pt-BR .
+
+esp:realiza a owl:ObjectProperty ;
+    rdfs:label "realiza"@pt-BR ;
+    rdfs:domain esp:Instituicao ;
+    rdfs:range esp:Realizacao ;
+    rdfs:comment "Casas e órgãos realizam tanto atividades quanto eventos."@pt-BR .
+
+esp:doTipo a owl:ObjectProperty ;
+    rdfs:label "do tipo"@pt-BR ;
+    rdfs:domain esp:Atividade ;
+    rdfs:range esp:TipoDeAtividade .
+
+esp:apoiadaPor a owl:ObjectProperty ;
+    rdfs:label "apoiada por"@pt-BR ;
+    rdfs:domain esp:TipoDeAtividade ;
+    rdfs:range esp:AreaFederativa ;
+    rdfs:comment "Sem cardinalidade mínima: um tipo de atividade pode não ter área nenhuma que o apoie, e uma área técnica pode não apoiar atividade alguma. Nunca é composição."@pt-BR .
+
+esp:temPublicoAlvo a owl:ObjectProperty ;
+    rdfs:label "tem público-alvo"@pt-BR ;
+    rdfs:domain esp:Realizacao ;
+    rdfs:range esp:PublicoAlvo .
+
+esp:atuaEm a owl:ObjectProperty ;
+    rdfs:label "atua em"@pt-BR ;
+    rdfs:domain esp:Voluntario ;
+    rdfs:range esp:Instituicao .
+
+esp:atuaNaArea a owl:ObjectProperty ;
+    rdfs:label "atua na área"@pt-BR ;
+    rdfs:domain esp:Voluntario ;
+    rdfs:range esp:AreaFederativa .
+
+esp:coordena a owl:ObjectProperty ;
+    rdfs:label "coordena"@pt-BR ;
+    rdfs:domain esp:Coordenador ;
+    rdfs:comment "Alvo é uma Atividade ou uma AreaFederativa. Sem rdfs:range declarado: uma união sairia do perfil EL e quebraria o ELK. A restrição está em shapes/modelo.shacl.ttl."@pt-BR .
+
+esp:dirige a owl:ObjectProperty ;
+    rdfs:label "dirige"@pt-BR ;
+    rdfs:domain esp:Dirigente ;
+    rdfs:range esp:Instituicao .
+
+esp:frequenta a owl:ObjectProperty ;
+    rdfs:label "frequenta"@pt-BR ;
+    rdfs:domain esp:Frequentador ;
+    rdfs:range esp:Casa .
 
 esp:localizadaEm a owl:ObjectProperty ;
     rdfs:label "localizada em"@pt-BR ;
-    rdfs:domain esp:Casa ;
+    rdfs:domain esp:Instituicao ;
     rdfs:range esp:Municipio .
 
 esp:pertenceA a owl:ObjectProperty ;
@@ -174,10 +260,59 @@ esp:pertenceA a owl:ObjectProperty ;
     rdfs:domain esp:Municipio ;
     rdfs:range esp:UnidadeFederativa .
 
+##
+## Propriedades de dado
+##
+
+esp:sigla a owl:DatatypeProperty ;
+    rdfs:label "sigla"@pt-BR ;
+    rdfs:range xsd:string .
+
+esp:nomeLocal a owl:DatatypeProperty ;
+    rdfs:label "nome local"@pt-BR ;
+    rdfs:domain esp:Orgao ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Como o nível é chamado no estado: Regional, CRE, URE, Polo, AME."@pt-BR .
+
+esp:statusAdesao a owl:DatatypeProperty ;
+    rdfs:label "status de adesão"@pt-BR ;
+    rdfs:domain esp:Casa ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Adesa, Pendente, Previsto ou Conhecido. Enum validado por SHACL."@pt-BR .
+
+esp:modalidade a owl:DatatypeProperty ;
+    rdfs:label "modalidade"@pt-BR ;
+    rdfs:range xsd:string ;
+    rdfs:comment "presencial, virtual ou hibrida. Aplica-se a Casa e a Realizacao — sem rdfs:domain porque dois domínios em OWL significam interseção, não união. Alvo e enum em shapes/modelo.shacl.ttl."@pt-BR .
+
 esp:codigoIBGE a owl:DatatypeProperty ;
     rdfs:label "código IBGE"@pt-BR ;
     rdfs:domain esp:Municipio ;
     rdfs:range xsd:string .
+
+esp:periodicidade a owl:DatatypeProperty ;
+    rdfs:label "periodicidade"@pt-BR ;
+    rdfs:domain esp:Atividade ;
+    rdfs:range xsd:string .
+
+esp:dataInicio a owl:DatatypeProperty ;
+    rdfs:label "data de início"@pt-BR ;
+    rdfs:domain esp:Evento ;
+    rdfs:range xsd:date .
+
+esp:dataFim a owl:DatatypeProperty ;
+    rdfs:label "data de fim"@pt-BR ;
+    rdfs:domain esp:Evento ;
+    rdfs:range xsd:date .
+
+esp:edicao a owl:DatatypeProperty ;
+    rdfs:label "edição"@pt-BR ;
+    rdfs:domain esp:Evento ;
+    rdfs:range xsd:string .
+
+##
+## As duas únicas restrições existenciais do modelo
+##
 
 esp:Casa rdfs:subClassOf [
     a owl:Restriction ;

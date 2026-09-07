@@ -1,4 +1,4 @@
-# CQ-06: Toda classe da ontologia (exceto as 5 classes de topo intencionais)
+# CQ-06: Toda classe da ontologia (exceto as 6 classes de topo intencionais)
 # tem pelo menos um rdfs:subClassOf?
 # (violação = uma classe sem nenhum rdfs:subClassOf, exceto as raízes esperadas)
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
@@ -8,6 +8,11 @@ PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
 SELECT ?classe
 WHERE {
   ?classe a owl:Class .
-  FILTER(?classe != esp:Organizacao && ?classe != esp:Pessoa && ?classe != esp:Atividade && ?classe != esp:Localizacao && ?classe != esp:AreaDeAtuacao)
+  FILTER(?classe != esp:Instituicao
+      && ?classe != esp:Pessoa
+      && ?classe != esp:Realizacao
+      && ?classe != esp:TipoDeAtividade
+      && ?classe != esp:AreaFederativa
+      && ?classe != esp:Localizacao)
   FILTER NOT EXISTS { ?classe rdfs:subClassOf ?qualquerCoisa }
 }

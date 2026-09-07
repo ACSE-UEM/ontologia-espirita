@@ -1,0 +1,11 @@
+# CQ-04: Nada é Atividade e Evento ao mesmo tempo.
+# (violação = realização tipada como as duas coisas)
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?realizacao
+WHERE {
+  ?realizacao a ?tipoAtividade , ?tipoEvento .
+  ?tipoAtividade rdfs:subClassOf* esp:Atividade .
+  ?tipoEvento rdfs:subClassOf* esp:Evento .
+}
