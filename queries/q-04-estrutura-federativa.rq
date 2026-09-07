@@ -2,14 +2,17 @@
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
 
-SELECT ?orgao ?nomeLocal ?dentroDe
+SELECT ?orgao ?nomeLocal ?vinculo ?dentroDe
 WHERE {
   ?umOrgao a/rdfs:subClassOf* esp:Orgao ;
            rdfs:label ?orgao .
   OPTIONAL { ?umOrgao esp:nomeLocal ?nomeLocal }
   OPTIONAL {
-    ?umOrgao esp:parteDe ?superior .
+    ?umOrgao esp:parteDe|esp:orgaoInternoDe ?superior .
     ?superior rdfs:label ?dentroDe .
+    BIND(IF(EXISTS { ?umOrgao esp:orgaoInternoDe ?superior },
+            "órgão interno de",
+            "parte de") AS ?vinculo)
   }
 }
 ORDER BY ?orgao
