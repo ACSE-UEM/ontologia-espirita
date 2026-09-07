@@ -20,14 +20,17 @@ else
     echo "  (nenhum arquivo .rq encontrado ainda — pulando)"
 fi
 
-echo "== 4/4: SHACL do catálogo de referência =="
-if [ -f ontology/reference-catalog.ttl ] && ls shapes/*.shacl.ttl >/dev/null 2>&1; then
-    for shape in shapes/*.shacl.ttl; do
-        echo "  -- $shape --"
-        pyshacl -s "$shape" -d ontology/reference-catalog.ttl -e ontology/core.ttl -i rdfs
+echo "== 4/4: SHACL (catálogo de referência e exemplos) =="
+if ls shapes/*.shacl.ttl >/dev/null 2>&1; then
+    for dados in ontology/reference-catalog.ttl examples/mg.ttl; do
+        [ -f "$dados" ] || continue
+        for shape in shapes/*.shacl.ttl; do
+            echo "  -- $shape sobre $dados --"
+            pyshacl -s "$shape" -d "$dados" -e ontology/core.ttl -i rdfs
+        done
     done
 else
-    echo "  (catálogo de referência ou shapes ainda não existem — pulando)"
+    echo "  (shapes ainda não existem — pulando)"
 fi
 
 echo "== validação concluída com sucesso =="

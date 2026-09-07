@@ -11,7 +11,7 @@ help:
 	@echo "  make profile        - verifica se o TBox esta no perfil OWL 2 EL"
 	@echo "  make reason         - roda so o robot reason (consistencia logica do TBox)"
 	@echo "  make verify         - roda so as competency questions (robot verify)"
-	@echo "  make shacl          - roda so a validacao SHACL do catalogo de referencia"
+	@echo "  make shacl          - roda so a validacao SHACL (catalogo de referencia e exemplos)"
 	@echo "  make context        - regera ontology/context.jsonld a partir de core.ttl"
 	@echo "  make context-check  - falha se context.jsonld estiver desatualizado"
 	@echo "  make clean          - remove artefatos gerados (cq-*.csv, etc)"
@@ -46,7 +46,13 @@ verify: build
 
 shacl: build
 	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
-		'for shape in shapes/*.shacl.ttl; do echo "-- $$shape --"; pyshacl -s "$$shape" -d ontology/reference-catalog.ttl -e ontology/core.ttl -i rdfs; done'
+		'for dados in ontology/reference-catalog.ttl examples/mg.ttl; do \
+		   [ -f "$$dados" ] || continue; \
+		   for shape in shapes/*.shacl.ttl; do \
+		     echo "-- $$shape sobre $$dados --"; \
+		     pyshacl -s "$$shape" -d "$$dados" -e ontology/core.ttl -i rdfs; \
+		   done; \
+		 done'
 
 context: build
 	docker run --rm --entrypoint python3 -v "$(WORKDIR)":/work -w /work $(IMAGE) scripts/generate_context.py

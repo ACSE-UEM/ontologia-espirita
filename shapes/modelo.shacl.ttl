@@ -1,0 +1,99 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix esp: <https://w3id.org/ontologia-espirita/v1#> .
+
+##
+## Casa
+##
+
+esp:CasaShape a sh:NodeShape ;
+    sh:targetClass esp:Casa ;
+    sh:property [
+        sh:path esp:localizadaEm ;
+        sh:minCount 1 ;
+        sh:class esp:Municipio ;
+        sh:message "Toda casa precisa de vínculo municipal, inclusive a de funcionamento só virtual — é exigência legal."@pt-BR ;
+    ] ;
+    sh:property [
+        sh:path esp:statusAdesao ;
+        sh:maxCount 1 ;
+        sh:in ( "Adesa" "Pendente" "Previsto" "Conhecido" ) ;
+        sh:message "statusAdesao só aceita Adesa, Pendente, Previsto ou Conhecido."@pt-BR ;
+    ] ;
+    sh:property [
+        sh:path esp:modalidade ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "Recomendado informar a modalidade da casa (presencial, virtual ou hibrida). Aviso, não erro: o cadastro federativo existente ainda não tem esse campo."@pt-BR ;
+    ] ;
+    sh:property [
+        sh:path esp:modalidade ;
+        sh:in ( "presencial" "virtual" "hibrida" ) ;
+        sh:message "modalidade só aceita presencial, virtual ou hibrida."@pt-BR ;
+    ] .
+
+##
+## Realizações — atividade e evento
+##
+
+esp:RealizacaoShape a sh:NodeShape ;
+    sh:targetClass esp:Atividade , esp:Evento ;
+    sh:property [
+        sh:path esp:modalidade ;
+        sh:minCount 1 ;
+        sh:in ( "presencial" "virtual" "hibrida" ) ;
+        sh:message "Toda atividade e todo evento informam modalidade: presencial, virtual ou hibrida."@pt-BR ;
+    ] .
+
+esp:AtividadeShape a sh:NodeShape ;
+    sh:targetClass esp:Atividade ;
+    sh:property [
+        sh:path esp:doTipo ;
+        sh:minCount 1 ;
+        sh:class esp:TipoDeAtividade ;
+        sh:message "Toda atividade aponta para um tipo do catálogo."@pt-BR ;
+    ] .
+
+esp:EventoShape a sh:NodeShape ;
+    sh:targetClass esp:Evento ;
+    sh:property [
+        sh:path esp:dataInicio ;
+        sh:minCount 1 ;
+        sh:datatype xsd:date ;
+        sh:message "Todo evento tem data de início — é o que o separa de uma atividade."@pt-BR ;
+    ] .
+
+##
+## Coordenador — o alvo que o perfil EL não expressa
+##
+
+esp:CoordenadorShape a sh:NodeShape ;
+    sh:targetClass esp:Coordenador ;
+    sh:property [
+        sh:path esp:coordena ;
+        sh:minCount 1 ;
+        sh:or ( [ sh:class esp:Atividade ] [ sh:class esp:AreaFederativa ] ) ;
+        sh:message "Coordenador coordena uma Atividade ou uma AreaFederativa."@pt-BR ;
+    ] .
+
+##
+## Órgãos
+##
+
+esp:OrgaoRegionalShape a sh:NodeShape ;
+    sh:targetClass esp:OrgaoRegional ;
+    sh:property [
+        sh:path esp:nomeLocal ;
+        sh:minCount 1 ;
+        sh:message "Órgão regional precisa do nome local (Regional, CRE, URE, Polo) — a nomenclatura varia por estado."@pt-BR ;
+    ] .
+
+esp:OrgaoUnificadorShape a sh:NodeShape ;
+    sh:targetClass esp:OrgaoUnificador ;
+    sh:property [
+        sh:path esp:orgaoInternoDe ;
+        sh:minCount 1 ;
+        sh:class esp:Federativa ;
+        sh:message "Órgão unificador é sempre órgão interno de uma federativa."@pt-BR ;
+    ] .

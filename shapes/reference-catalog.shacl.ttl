@@ -10,3 +10,21 @@ esp:FederativaShape a sh:NodeShape ;
         sh:languageIn ( "pt-BR" ) ;
         sh:message "Toda entidade federativa do catálogo de referência precisa de rdfs:label em pt-BR."@pt-BR ;
     ] .
+
+esp:AreaFederativaShape a sh:NodeShape ;
+    sh:targetClass esp:AreaFederativa ;
+    sh:property [
+        sh:path esp:sigla ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Toda área federativa do catálogo tem exatamente uma sigla."@pt-BR ;
+    ] .
+
+esp:TipoDeAtividadeShape a sh:NodeShape ;
+    sh:targetClass esp:TipoDeAtividade ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:minCount 1 ;
+        sh:languageIn ( "pt-BR" ) ;
+        sh:message "Todo tipo de atividade do catálogo precisa de rdfs:label em pt-BR."@pt-BR ;
+    ] .
