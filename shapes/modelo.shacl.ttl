@@ -4,6 +4,20 @@
 @prefix esp: <https://w3id.org/ontologia-espirita/v1#> .
 
 ##
+## Nota sobre sh:class e inferência RDFS (-i rdfs)
+##
+## Este arquivo é validado com `pyshacl -i rdfs` (ver Makefile e docker/validate.sh).
+## Em qualquer sh:path cuja propriedade já tem rdfs:range declarado em core.ttl, a
+## inferência RDFS (regra rdfs3) atribui esse tipo ao valor antes do SHACL avaliar a
+## shape — logo sh:class nesse path nunca reprova, só sh:minCount tem efeito prático.
+## Isso vale hoje para esp:localizadaEm, esp:doTipo e esp:orgaoInternoDe, marcados
+## abaixo. As cláusulas sh:class são mantidas mesmo assim: se o rdfs:range
+## correspondente for removido do TBox no futuro — como já aconteceu com
+## esp:dataInicio e esp:dataFim, cujo xsd:date está fora do mapa de datatypes do
+## perfil EL — elas voltam a ter efeito imediatamente, sem reescrever o shape.
+##
+
+##
 ## Casa
 ##
 
@@ -14,6 +28,7 @@ esp:CasaShape a sh:NodeShape ;
         sh:minCount 1 ;
         sh:class esp:Municipio ;
         sh:message "Toda casa precisa de vínculo municipal, inclusive a de funcionamento só virtual — é exigência legal."@pt-BR ;
+        rdfs:comment "sh:class inerte hoje: esp:localizadaEm tem rdfs:range esp:Municipio em core.ttl, e a inferência RDFS (-i rdfs) já tipa o valor antes da checagem SHACL. Só sh:minCount é aplicado na prática — ver nota no topo deste arquivo."@pt-BR ;
     ] ;
     sh:property [
         sh:path esp:statusAdesao ;
@@ -53,6 +68,7 @@ esp:AtividadeShape a sh:NodeShape ;
         sh:minCount 1 ;
         sh:class esp:TipoDeAtividade ;
         sh:message "Toda atividade aponta para um tipo do catálogo."@pt-BR ;
+        rdfs:comment "sh:class inerte hoje: esp:doTipo tem rdfs:range esp:TipoDeAtividade em core.ttl, e a inferência RDFS (-i rdfs) já tipa o valor antes da checagem SHACL. Só sh:minCount é aplicado na prática — ver nota no topo deste arquivo."@pt-BR ;
     ] .
 
 esp:EventoShape a sh:NodeShape ;
@@ -96,4 +112,5 @@ esp:OrgaoUnificadorShape a sh:NodeShape ;
         sh:minCount 1 ;
         sh:class esp:Federativa ;
         sh:message "Órgão unificador é sempre órgão interno de uma federativa."@pt-BR ;
+        rdfs:comment "sh:class inerte hoje: esp:orgaoInternoDe tem rdfs:range esp:Federativa em core.ttl, e a inferência RDFS (-i rdfs) já tipa o valor antes da checagem SHACL. Só sh:minCount é aplicado na prática — ver nota no topo deste arquivo."@pt-BR ;
     ] .
