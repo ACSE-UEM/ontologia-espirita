@@ -455,12 +455,12 @@ esp:periodicidade a owl:DatatypeProperty ;
 esp:dataInicio a owl:DatatypeProperty ;
     rdfs:label "data de início"@pt-BR ;
     rdfs:domain esp:Evento ;
-    rdfs:range xsd:date .
+    rdfs:comment "Sem rdfs:range declarado: xsd:date não pertence ao mapa de datatypes do perfil OWL 2 EL. O tipo é exigido em shapes/modelo.shacl.ttl, mesmo padrão de esp:coordena e esp:modalidade."@pt-BR .
 
 esp:dataFim a owl:DatatypeProperty ;
     rdfs:label "data de fim"@pt-BR ;
     rdfs:domain esp:Evento ;
-    rdfs:range xsd:date .
+    rdfs:comment "Sem rdfs:range declarado, pelo mesmo motivo de esp:dataInicio."@pt-BR .
 
 esp:edicao a owl:DatatypeProperty ;
     rdfs:label "edição"@pt-BR ;

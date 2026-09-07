@@ -319,8 +319,8 @@ Data properties:
 | `modalidade` | — | `xsd:string` | `presencial` \| `virtual` \| `hibrida`; alvo (`Casa`, `Realizacao`) e enum só em SHACL |
 | `codigoIBGE` | `Municipio` | `xsd:string` | |
 | `periodicidade` | `Atividade` | `xsd:string` | |
-| `dataInicio` | `Evento` | `xsd:date` | |
-| `dataFim` | `Evento` | `xsd:date` | |
+| `dataInicio` | `Evento` | — | tipo só em SHACL — `xsd:date` está fora do mapa de datatypes do perfil EL |
+| `dataFim` | `Evento` | — | idem |
 | `edicao` | `Evento` | `xsd:string` | "XII Semana Espírita" |
 
 Propriedades do v1 que **saem**: `atuaEm` com domínio `Casa` e imagem
