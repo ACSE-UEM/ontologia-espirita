@@ -1980,10 +1980,11 @@ descrevem o que as tasks anteriores construíram.
 make validate && make contra-exemplos && make perguntas && make context-check
 ```
 
-- `validate` verde: TBox consistente, oito competency questions com zero
-  linhas, SHACL limpo sobre catálogo e exemplos.
+- `validate` verde: perfil OWL 2 EL confirmado, TBox consistente, nove
+  competency questions com zero linhas, SHACL limpo sobre o grafo mesclado.
 - `contra-exemplos` verde: as verificações de disjunção realmente detectam as
   violações plantadas.
-- `perguntas`: seis blocos com respostas, incluindo as seis áreas que apoiam a
-  palestra pública, a casa não adesa, e a 16ª CRE realizando uma atividade.
+- `perguntas`: sete blocos com respostas, incluindo as seis áreas que apoiam a
+  palestra pública, a casa não adesa, a 16ª CRE realizando uma atividade, e o
+  COFEMG como órgão interno da UEM.
 - `context-check` verde: `context.jsonld` em dia com o `core.ttl`.
