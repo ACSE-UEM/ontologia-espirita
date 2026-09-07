@@ -18,12 +18,20 @@ federativo).
 - `docs/modelo-de-dominio.md` — visão narrativa do grafo.
 - `docs/guia-de-contribuicao.md` — como propor e validar mudanças.
 - `docs/decisoes/` — ADRs.
+- `examples/` — ABox de teste: `mg.ttl` (válido) e `contra-exemplos.ttl`
+  (violações plantadas).
+- `queries/` — perguntas de inspeção, impressas por `make perguntas`.
 - `docs/superpowers/specs/` e `docs/superpowers/plans/` — histórico de
   design e implementação.
 
-## Validação
+## Validação e inspeção
 
 ```bash
-docker build -t ontologia-espirita-ci -f docker/Dockerfile docker/
-docker run --rm -v "$(pwd)":/work ontologia-espirita-ci /work/docker/validate.sh
+make validate           # pipeline completo (profile + reason + verify + shacl)
+make perguntas          # imprime o que o modelo responde
+make contra-exemplos    # prova que as verificações pegam erro
 ```
+
+`make verify` **falha** quando o modelo está errado. `make perguntas`
+**mostra** o que o modelo pensa — é a ferramenta para ler as respostas e
+apontar o que está incorreto.
