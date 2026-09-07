@@ -32,15 +32,15 @@ validate: build
 	$(DOCKER_RUN) /work/docker/validate.sh
 
 reason: build
-	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) sh -c \
+	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
 		"robot reason --input ontology/core.ttl --reasoner ELK --output /tmp/core-reasoned.ttl && echo OK"
 
 verify: build
-	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) sh -c \
+	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
 		"robot merge --input ontology/core.ttl --input ontology/reference-catalog.ttl verify --queries competency-questions/*.rq"
 
 shacl: build
-	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) sh -c \
+	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
 		'for shape in shapes/*.shacl.ttl; do echo "-- $$shape --"; pyshacl -s "$$shape" -d ontology/reference-catalog.ttl -e ontology/core.ttl -i rdfs; done'
 
 context: build
