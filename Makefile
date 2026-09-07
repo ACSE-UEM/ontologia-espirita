@@ -2,12 +2,13 @@ IMAGE := ontologia-espirita-ci
 WORKDIR := $(CURDIR)
 DOCKER_RUN := docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE)
 
-.PHONY: help check-tools build validate reason verify shacl context context-check clean
+.PHONY: help check-tools build validate profile reason verify shacl context context-check clean
 
 help:
 	@echo "Alvos disponiveis:"
 	@echo "  make build          - constroi a imagem docker de validacao"
 	@echo "  make validate       - roda o pipeline completo (reason + verify + shacl)"
+	@echo "  make profile        - verifica se o TBox esta no perfil OWL 2 EL"
 	@echo "  make reason         - roda so o robot reason (consistencia logica do TBox)"
 	@echo "  make verify         - roda so as competency questions (robot verify)"
 	@echo "  make shacl          - roda so a validacao SHACL do catalogo de referencia"
@@ -30,6 +31,10 @@ build: check-tools
 
 validate: build
 	$(DOCKER_RUN) /work/docker/validate.sh
+
+profile: build
+	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
+		"robot validate-profile --profile EL --input ontology/core.ttl --output /tmp/el-profile-report.txt && echo OK"
 
 reason: build
 	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
