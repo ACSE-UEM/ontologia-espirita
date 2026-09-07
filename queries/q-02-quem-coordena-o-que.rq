@@ -1,0 +1,14 @@
+# Quem coordena o quê, e onde?
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?pessoa ?coordena ?onde
+WHERE {
+  ?umaPessoa a esp:Coordenador ;
+             rdfs:label ?pessoa ;
+             esp:coordena ?alvo ;
+             esp:atuaEm ?instituicao .
+  ?alvo rdfs:label ?coordena .
+  ?instituicao rdfs:label ?onde .
+}
+ORDER BY ?pessoa

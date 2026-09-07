@@ -1,0 +1,15 @@
+# Como está montada a estrutura federativa que o catálogo conhece?
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?orgao ?nomeLocal ?dentroDe
+WHERE {
+  ?umOrgao a/rdfs:subClassOf* esp:Orgao ;
+           rdfs:label ?orgao .
+  OPTIONAL { ?umOrgao esp:nomeLocal ?nomeLocal }
+  OPTIONAL {
+    ?umOrgao esp:parteDe ?superior .
+    ?superior rdfs:label ?dentroDe .
+  }
+}
+ORDER BY ?orgao

@@ -57,6 +57,9 @@ shacl: build
 contra-exemplos: build
 	$(DOCKER_RUN) /work/docker/contra-exemplos.sh
 
+perguntas: build
+	$(DOCKER_RUN) /work/docker/perguntas.sh
+
 context: build
 	docker run --rm --entrypoint python3 -v "$(WORKDIR)":/work -w /work $(IMAGE) scripts/generate_context.py
 

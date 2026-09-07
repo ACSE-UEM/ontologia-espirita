@@ -1,0 +1,16 @@
+# Onde cada voluntário atua, e em que áreas federativas?
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?voluntario ?onde ?sigla
+WHERE {
+  ?umVoluntario a/rdfs:subClassOf* esp:Voluntario ;
+                rdfs:label ?voluntario ;
+                esp:atuaEm ?instituicao .
+  ?instituicao rdfs:label ?onde .
+  OPTIONAL {
+    ?umVoluntario esp:atuaNaArea ?area .
+    ?area esp:sigla ?sigla .
+  }
+}
+ORDER BY ?voluntario

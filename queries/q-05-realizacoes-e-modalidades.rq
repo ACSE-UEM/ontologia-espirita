@@ -1,0 +1,13 @@
+# Quem realiza o quê, de que natureza e em que modalidade?
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?quem ?realizacao ?natureza ?modalidade
+WHERE {
+  ?instituicao esp:realiza ?umaRealizacao ;
+               rdfs:label ?quem .
+  ?umaRealizacao rdfs:label ?realizacao ;
+                 esp:modalidade ?modalidade .
+  BIND(IF(EXISTS { ?umaRealizacao a esp:Evento }, "evento", "atividade") AS ?natureza)
+}
+ORDER BY ?quem ?realizacao

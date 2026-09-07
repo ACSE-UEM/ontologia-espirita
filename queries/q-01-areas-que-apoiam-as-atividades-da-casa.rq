@@ -1,0 +1,14 @@
+# Quais áreas federativas apoiam as atividades da Casa Luz do Caminho?
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?atividade ?sigla ?area
+WHERE {
+  esp:CasaLuzDoCaminho esp:realiza ?umaAtividade .
+  ?umaAtividade rdfs:label ?atividade ;
+                esp:doTipo ?tipo .
+  ?tipo esp:apoiadaPor ?umaArea .
+  ?umaArea esp:sigla ?sigla ;
+           rdfs:label ?area .
+}
+ORDER BY ?atividade ?sigla
