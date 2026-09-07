@@ -1347,6 +1347,7 @@ e so passa quando cada uma as encontra."
 - Create: `queries/q-04-estrutura-federativa.rq`
 - Create: `queries/q-05-realizacoes-e-modalidades.rq`
 - Create: `queries/q-06-voluntarios-e-areas.rq`
+- Create: `queries/q-07-casas-adesas.rq`
 - Create: `docker/perguntas.sh`
 - Modify: `Makefile` (alvo `perguntas`)
 
@@ -1475,6 +1476,33 @@ WHERE {
 }
 ORDER BY ?voluntario
 ```
+
+`queries/q-07-casas-adesas.rq`:
+
+```sparql
+# Quais casas são adesas, a que federativa, e por quais órgãos são atendidas?
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?casa ?modalidade ?status ?adesaA ?atendidaPor
+WHERE {
+  ?umaCasa a/rdfs:subClassOf* esp:Casa ;
+           rdfs:label ?casa ;
+           esp:adesaA ?federativa .
+  ?federativa rdfs:label ?adesaA .
+  OPTIONAL { ?umaCasa esp:statusAdesao ?status }
+  OPTIONAL { ?umaCasa esp:modalidade ?modalidade }
+  OPTIONAL {
+    ?umaCasa esp:atendidaPor ?orgao .
+    ?orgao rdfs:label ?atendidaPor .
+  }
+}
+ORDER BY ?casa ?atendidaPor
+```
+
+Complementar à `q-03`, não duplicada: esta exige `esp:adesaA` no padrão principal,
+então uma casa não adesa não aparece aqui — ela aparece na `q-03`. `esp:modalidade`
+entra de propósito, para a casa virtual surgir ao lado das presenciais.
 
 - [ ] **Step 2: Escrever `docker/perguntas.sh`**
 
