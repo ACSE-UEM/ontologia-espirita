@@ -779,7 +779,7 @@ nome local em atributo, para caber estados sem esses niveis."
 **Files:**
 - Create: `shapes/modelo.shacl.ttl`
 - Modify: `shapes/reference-catalog.shacl.ttl`
-- Modify: `docker/validate.sh:20-30` (bloco `== 3/3 ==`)
+- Modify: `docker/validate.sh` (bloco `== 4/4 ==`)
 - Modify: `Makefile:42-45` (alvo `shacl`)
 
 **Interfaces:**
@@ -918,10 +918,10 @@ esp:TipoDeAtividadeShape a sh:NodeShape ;
 
 - [ ] **Step 3: Fazer o SHACL rodar sobre os dois arquivos de dados**
 
-Em `docker/validate.sh`, substituir o bloco `== 3/3 ==` inteiro por:
+Em `docker/validate.sh`, substituir o bloco `== 4/4 ==` inteiro por:
 
 ```sh
-echo "== 3/3: SHACL (catálogo de referência e exemplos) =="
+echo "== 4/4: SHACL (catálogo de referência e exemplos) =="
 if ls shapes/*.shacl.ttl >/dev/null 2>&1; then
     for dados in ontology/reference-catalog.ttl examples/mg.ttl; do
         [ -f "$dados" ] || continue
@@ -977,7 +977,7 @@ SHACL passa a rodar sobre catalogo e exemplos, nao so o catalogo."
 **Files:**
 - Create: `examples/mg.ttl`
 - Modify: `Makefile:38-41` (alvo `verify`)
-- Modify: `docker/validate.sh:9-19` (bloco `== 2/3 ==`)
+- Modify: `docker/validate.sh` (bloco `== 3/4 ==`)
 
 **Interfaces:**
 - Consumes: classes e propriedades da Task 1; indivíduos da Task 2; shapes da Task 3.
@@ -993,10 +993,10 @@ verify: build
 		"robot merge --input ontology/core.ttl --input ontology/reference-catalog.ttl --input examples/mg.ttl verify --queries competency-questions/*.rq"
 ```
 
-Em `docker/validate.sh`, substituir o bloco `== 2/3 ==` inteiro por:
+Em `docker/validate.sh`, substituir o bloco `== 3/4 ==` inteiro por:
 
 ```sh
-echo "== 2/3: competency questions (robot verify) =="
+echo "== 3/4: competency questions (robot verify) =="
 if [ -d competency-questions ] && ls competency-questions/*.rq >/dev/null 2>&1; then
     ENTRADAS="--input ontology/core.ttl"
     [ -f ontology/reference-catalog.ttl ] && ENTRADAS="$ENTRADAS --input ontology/reference-catalog.ttl"
