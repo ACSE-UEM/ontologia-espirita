@@ -46,12 +46,10 @@ verify: build
 
 shacl: build
 	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
-		'for dados in ontology/reference-catalog.ttl examples/mg.ttl; do \
-		   [ -f "$$dados" ] || continue; \
-		   for shape in shapes/*.shacl.ttl; do \
-		     echo "-- $$shape sobre $$dados --"; \
-		     pyshacl -s "$$shape" -d "$$dados" -e ontology/core.ttl -i rdfs; \
-		   done; \
+		'robot merge --input ontology/core.ttl --input ontology/reference-catalog.ttl --input examples/mg.ttl --output /tmp/dados-shacl.ttl && \
+		 for shape in shapes/*.shacl.ttl; do \
+		   echo "-- $$shape --"; \
+		   pyshacl -s "$$shape" -d /tmp/dados-shacl.ttl -i rdfs; \
 		 done'
 
 context: build
