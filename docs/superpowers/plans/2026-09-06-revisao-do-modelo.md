@@ -939,7 +939,7 @@ Em `Makefile`, substituir o alvo `shacl` por:
 
 ```make
 shacl: build
-	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) sh -c \
+	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
 		'for dados in ontology/reference-catalog.ttl examples/mg.ttl; do \
 		   [ -f "$$dados" ] || continue; \
 		   for shape in shapes/*.shacl.ttl; do \
@@ -989,7 +989,7 @@ Em `Makefile`, substituir o alvo `verify` por:
 
 ```make
 verify: build
-	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) sh -c \
+	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
 		"robot merge --input ontology/core.ttl --input ontology/reference-catalog.ttl --input examples/mg.ttl verify --queries competency-questions/*.rq"
 ```
 
