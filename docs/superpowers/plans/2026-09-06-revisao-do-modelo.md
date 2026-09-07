@@ -1194,7 +1194,9 @@ Competency questions e SHACL passam a rodar tambem sobre os exemplos."
 - Consumes: `cq-01-casa-nao-e-orgao.rq` e `cq-04-atividade-nao-e-evento.rq` da Task 1.
 - Produces: alvo `make contra-exemplos`.
 
-**Por que esta task existe:** `robot verify` trata **zero linhas como sucesso**. `cq-01` e `cq-04` verificam disjunções e, rodadas só contra o exemplo válido, nunca encontram nada — passariam vazias parecendo cobertura. Este é o teste do teste.
+**Por que esta task existe:** `robot verify` trata **zero linhas como sucesso**. Quatro consultas — `cq-01`, `cq-04`, `cq-07` e `cq-08` — só encontram algo quando existe dado errado no grafo. Rodadas contra um exemplo válido, passam vazias parecendo cobertura sem terem verificado nada. Este é o teste do teste.
+
+A `cq-08` merece atenção especial: ela depende de um property path SPARQL (`esp:parteDe+`). Se o motor de consulta não suportasse essa sintaxe, ela retornaria zero linhas para sempre e a garantia "sem ciclo" seria puramente decorativa.
 
 - [ ] **Step 1: Escrever o ABox deliberadamente inválido**
 
@@ -1220,6 +1222,22 @@ esp:CoisaQueEhCasaEOrgao a esp:Casa , esp:Orgao ;
 esp:CoisaQueEhAtividadeEEvento a esp:Atividade , esp:Evento ;
     rdfs:label "Realização impossível"@pt-BR ;
     rdfs:comment "Viola a disjunção Atividade/Evento. Deve ser encontrada por cq-04."@pt-BR .
+
+esp:TipoComApoioInvalido a esp:TipoDeAtividade ;
+    rdfs:label "Tipo com apoio inválido"@pt-BR ;
+    rdfs:comment "esp:apoiadaPor apontando para uma federativa, não para uma área. Deve ser encontrada por cq-07."@pt-BR ;
+    esp:apoiadaPor esp:FEB .
+
+esp:CicloOrgaoA a esp:MacroRegiao ;
+    rdfs:label "Órgão em ciclo A"@pt-BR ;
+    esp:nomeLocal "Regional" ;
+    esp:parteDe esp:CicloOrgaoB .
+
+esp:CicloOrgaoB a esp:MicroRegiao ;
+    rdfs:label "Órgão em ciclo B"@pt-BR ;
+    esp:nomeLocal "CRE" ;
+    rdfs:comment "Ciclo em esp:parteDe, que é transitiva. Deve ser encontrado por cq-08 — o par A/B gera duas violações."@pt-BR ;
+    esp:parteDe esp:CicloOrgaoA .
 ```
 
 - [ ] **Step 2: Escrever `docker/contra-exemplos.sh`**
@@ -1240,7 +1258,9 @@ robot merge --input ontology/core.ttl \
 
 FALHOU=0
 for consulta in competency-questions/cq-01-casa-nao-e-orgao.rq \
-                competency-questions/cq-04-atividade-nao-e-evento.rq ; do
+                competency-questions/cq-04-atividade-nao-e-evento.rq \
+                competency-questions/cq-07-apoio-so-para-area.rq \
+                competency-questions/cq-08-sem-ciclo-em-parte-de.rq ; do
     robot query --input "$MESCLADO" --query "$consulta" /tmp/contra.csv
     LINHAS=$(wc -l < /tmp/contra.csv)
     if [ "$LINHAS" -le 1 ]; then
@@ -1293,7 +1313,7 @@ contra-exemplos: build
 - [ ] **Step 4: Rodar e verificar que passa**
 
 Run: `make contra-exemplos`
-Expected: PASS, com duas linhas `OK: ... detectou 1 violacao(oes), como esperado`.
+Expected: PASS, com quatro linhas `OK:`. Note que `cq-08` detecta **duas** violações do único ciclo plantado — `esp:CicloOrgaoA` e `esp:CicloOrgaoB` são ambos parte de si mesmos através do outro.
 
 - [ ] **Step 5: Provar que o alvo falha quando deve**
 
