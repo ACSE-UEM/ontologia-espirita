@@ -1786,7 +1786,8 @@ chave de cruzamento com o painel de demografia.
 make perguntas          # imprime o que o modelo responde
 make verify             # falha se o modelo estiver errado
 make contra-exemplos    # prova que as verificações pegam erro
-make validate           # pipeline completo
+make profile            # confirma que o TBox está no perfil OWL 2 EL
+make validate           # pipeline completo (profile + reason + verify + shacl)
 ```
 
 ## O que fica fora
@@ -1863,6 +1864,21 @@ da federativa, e pode não ter vínculo nenhum.
     verificações de disjunção passariam vazias. `make contra-exemplos` roda
     as mesmas consultas contra violações plantadas e só passa quando as
     encontra.
+14. **O perfil EL é verificado, não presumido.** `robot reason --reasoner ELK`
+    prova consistência, não pertencimento ao perfil — o ELK tolerou um
+    datatype fora do perfil e passou verde. `robot validate-profile --profile
+    EL` entra como passo 1 de 4 do pipeline. Foi assim que `xsd:date` em
+    `esp:dataInicio`/`esp:dataFim` foi pego, e por isso essas duas propriedades
+    não declaram `rdfs:range`: o tipo é exigido em SHACL.
+15. **SHACL valida a união, não fragmentos.** Validar `examples/mg.ttl`
+    isoladamente produz violações falsas: a inferência RDFS tipa os indivíduos
+    do catálogo nas classes-alvo dos shapes, mas seus rótulos e siglas estão no
+    catálogo, ausente daquele grafo. Catálogo e exemplos são um grafo só.
+16. **Locale UTF-8 na imagem Docker.** A JVM do ROBOT lê arquivos de consulta
+    com o charset padrão do sistema; sem locale definido isso é ASCII, e texto
+    acentuado no corpo de uma consulta SPARQL sai corrompido. Os dados RDF nunca
+    foram afetados porque os parsers declaram UTF-8. Esta ontologia é escrita em
+    português: o locale é requisito, não conveniência.
 
 ## Consequências
 
@@ -1892,7 +1908,8 @@ gerou bump de versão — ver `docs/decisoes/0002-revisao-do-modelo.md`.
   `apoiadaPor`, estrutura federativa de Minas Gerais, FEB e CFN.
 - ABox de exemplo (`examples/mg.ttl`) e contra-exemplos
   (`examples/contra-exemplos.ttl`).
-- Alvos `make perguntas` (inspeção) e `make contra-exemplos` (teste do teste).
+- Alvos `make perguntas` (inspeção), `make contra-exemplos` (teste do teste) e
+  `make profile` (perfil OWL 2 EL).
 - Pipeline de validação Docker (ROBOT + SHACL) rodando em CI.
 - Documentação: glossário, modelo de domínio, guia de contribuição, ADRs 0001
   e 0002.
@@ -1913,7 +1930,7 @@ E substituir a seção `## Validação` inteira por:
 ## Validação e inspeção
 
 ```bash
-make validate           # pipeline completo (reason + verify + shacl)
+make validate           # pipeline completo (profile + reason + verify + shacl)
 make perguntas          # imprime o que o modelo responde
 make contra-exemplos    # prova que as verificações pegam erro
 ```
