@@ -17,6 +17,9 @@ jobs:
       - name: Rodar reasoner, competency questions e SHACL
         run: docker run --rm -v "${{ github.workspace }}":/work ontologia-espirita-ci /work/docker/validate.sh
 
+      - name: Provar que as verificações de disjunção pegam erro (contra-exemplos)
+        run: docker run --rm -v "${{ github.workspace }}":/work ontologia-espirita-ci /work/docker/contra-exemplos.sh
+
       - name: Verificar que context.jsonld está atualizado
         run: |
           docker run --rm --entrypoint python3 -v "${{ github.workspace }}":/work -w /work ontologia-espirita-ci scripts/generate_context.py

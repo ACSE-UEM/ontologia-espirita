@@ -7,11 +7,11 @@ DOCKER_RUN := docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE)
 help:
 	@echo "Alvos disponiveis:"
 	@echo "  make build          - constroi a imagem docker de validacao"
-	@echo "  make validate       - roda o pipeline completo (reason + verify + shacl)"
+	@echo "  make validate       - roda o pipeline completo (profile + reason + verify + shacl)"
 	@echo "  make profile        - verifica se o TBox esta no perfil OWL 2 EL"
 	@echo "  make reason         - roda so o robot reason (consistencia logica do TBox)"
 	@echo "  make verify         - roda so as competency questions (robot verify)"
-	@echo "  make shacl          - roda so a validacao SHACL (catalogo de referencia e exemplos)"
+	@echo "  make shacl          - roda so a validacao SHACL sobre o grafo mesclado (TBox + catalogo de referencia + exemplos)"
 	@echo "  make perguntas      - imprime as respostas do modelo para as perguntas de queries/"
 	@echo "  make contra-exemplos - prova que as verificacoes de disjuncao pegam erro"
 	@echo "  make context        - regera ontology/context.jsonld a partir de core.ttl"
@@ -35,24 +35,27 @@ validate: build
 	$(DOCKER_RUN) /work/docker/validate.sh
 
 profile: build
-	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
+	$(DOCKER_RUN) -c \
 		"robot validate-profile --profile EL --input ontology/core.ttl --output /tmp/el-profile-report.txt && echo OK"
 
 reason: build
-	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
+	$(DOCKER_RUN) -c \
 		"robot reason --input ontology/core.ttl --reasoner ELK --output /tmp/core-reasoned.ttl && echo OK"
 
 verify: build
-	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
+	$(DOCKER_RUN) -c \
 		"robot merge --input ontology/core.ttl --input ontology/reference-catalog.ttl --input examples/mg.ttl verify --queries competency-questions/*.rq"
 
 shacl: build
-	docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE) -c \
-		'robot merge --input ontology/core.ttl --input ontology/reference-catalog.ttl --input examples/mg.ttl --output /tmp/dados-shacl.ttl && \
+	$(DOCKER_RUN) -c \
+		'set -e; \
+		 robot merge --input ontology/core.ttl --input ontology/reference-catalog.ttl --input examples/mg.ttl --output /tmp/dados-shacl.ttl; \
+		 FALHOU=0; \
 		 for shape in shapes/*.shacl.ttl; do \
 		   echo "-- $$shape --"; \
-		   pyshacl -s "$$shape" -d /tmp/dados-shacl.ttl -i rdfs; \
-		 done'
+		   pyshacl -s "$$shape" -d /tmp/dados-shacl.ttl -i rdfs || FALHOU=1; \
+		 done; \
+		 exit $$FALHOU'
 
 contra-exemplos: build
 	$(DOCKER_RUN) /work/docker/contra-exemplos.sh

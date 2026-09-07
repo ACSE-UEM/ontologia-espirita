@@ -12,6 +12,16 @@ robot merge --input ontology/core.ttl \
             --output "$MESCLADO"
 
 FALHOU=0
+
+if robot reason --input "$MESCLADO" --reasoner ELK --output /tmp/contra-reasoned.ttl >/tmp/contra-reason.log 2>&1; then
+    echo "FALHA: robot reason nao detectou inconsistencia no grafo mesclado de contra-exemplos"
+    echo "       As axiomas owl:disjointWith podem nao estar sendo verificadas por nada."
+    cat /tmp/contra-reason.log
+    FALHOU=1
+else
+    echo "OK: robot reason detectou inconsistencia no grafo mesclado (disjuncoes Casa/Orgao e Atividade/Evento), como esperado"
+fi
+
 for consulta in competency-questions/cq-01-casa-nao-e-orgao.rq \
                 competency-questions/cq-04-atividade-nao-e-evento.rq \
                 competency-questions/cq-07-apoio-so-para-area.rq \

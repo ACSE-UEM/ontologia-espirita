@@ -1,6 +1,6 @@
 # Glossário
 
-Termos em português, na ordem em que aparecem em `ontology/core.ttl`.
+Termos em português, agrupados por tema.
 
 Esta ontologia cobre o **movimento espírita kardecista**. Umbanda, candomblé
 e outras vertentes não fazem parte do domínio.
