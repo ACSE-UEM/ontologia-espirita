@@ -1,0 +1,9 @@
+# CQ-07: esp:apoiadaPor só aponta para área federativa?
+# (violação = apoio apontando para qualquer coisa que não seja esp:AreaFederativa)
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?tipo ?alvo
+WHERE {
+  ?tipo esp:apoiadaPor ?alvo .
+  FILTER NOT EXISTS { ?alvo a esp:AreaFederativa }
+}

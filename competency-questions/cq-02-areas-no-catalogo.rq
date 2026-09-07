@@ -1,0 +1,16 @@
+# CQ-02: Toda área federativa do catálogo tem sigla e rótulo em pt-BR?
+# (violação = indivíduo esp:AreaFederativa sem esp:sigla ou sem rdfs:label@pt-BR)
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?area
+WHERE {
+  ?area a esp:AreaFederativa .
+  FILTER(
+       NOT EXISTS { ?area esp:sigla ?sigla }
+    || NOT EXISTS {
+         ?area rdfs:label ?rotulo .
+         FILTER(LANGMATCHES(LANG(?rotulo), "pt-BR"))
+       }
+  )
+}

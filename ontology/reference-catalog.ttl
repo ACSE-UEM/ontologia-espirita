@@ -1,6 +1,151 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix esp: <https://w3id.org/ontologia-espirita/v1#> .
 
-esp:UEM a esp:Federativa ;
+##
+## Áreas federativas — vocabulário controlado (10 áreas)
+##
+## São indivíduos, não classes: tipos de atividade apontam para elas via
+## esp:apoiadaPor, e uma instância não pode apontar para uma classe em OWL DL
+## sem punning, o que quebraria o raciocinador ELK usado no CI.
+##
+## AG (Área de Gestão) fica deliberadamente fora — ver ADR 0002.
+##
+
+esp:AAE a esp:AreaFederativa ;
+    esp:sigla "AAE" ;
+    rdfs:label "Área de Atendimento Espiritual"@pt-BR .
+
+esp:AA a esp:AreaFederativa ;
+    esp:sigla "AA" ;
+    rdfs:label "Área de Arte"@pt-BR .
+
+esp:ACSE a esp:AreaFederativa ;
+    esp:sigla "ACSE" ;
+    rdfs:label "Área de Comunicação Social Espírita"@pt-BR .
+
+esp:AEE a esp:AreaFederativa ;
+    esp:sigla "AEE" ;
+    rdfs:label "Área de Estudo do Espiritismo"@pt-BR .
+
+esp:AEEJ a esp:AreaFederativa ;
+    esp:sigla "AEEJ" ;
+    rdfs:label "Área de Estudo do Evangelho de Jesus"@pt-BR .
+
+esp:AESP a esp:AreaFederativa ;
+    esp:sigla "AESP" ;
+    rdfs:label "Área de Esperanto"@pt-BR .
+
+esp:AFam a esp:AreaFederativa ;
+    esp:sigla "AFam" ;
+    rdfs:label "Área da Família"@pt-BR .
+
+esp:AIJ a esp:AreaFederativa ;
+    esp:sigla "AIJ" ;
+    rdfs:label "Área de Infância e Juventude"@pt-BR .
+
+esp:AOM a esp:AreaFederativa ;
+    esp:sigla "AOM" ;
+    rdfs:label "Área de Orientação Mediúnica"@pt-BR .
+
+esp:APSE a esp:AreaFederativa ;
+    esp:sigla "APSE" ;
+    rdfs:label "Área de Promoção Social Espírita"@pt-BR .
+
+##
+## Tipos de atividade — catálogo editável
+##
+## esp:apoiadaPor registra quais áreas podem dar apoio à casa naquele tipo de
+## atividade. Não é composição: a atividade não é parte da área. A lista não é
+## exclusiva nem exaustiva, e um tipo pode não ter área nenhuma.
+##
+
+esp:PalestraPublica a esp:TipoDeAtividade ;
+    rdfs:label "Palestra pública"@pt-BR ;
+    esp:apoiadaPor esp:AEE , esp:AEEJ , esp:AAE , esp:APSE , esp:AESP , esp:ACSE .
+
+esp:ReuniaoMediunica a esp:TipoDeAtividade ;
+    rdfs:label "Reunião mediúnica"@pt-BR ;
+    esp:apoiadaPor esp:AOM , esp:AEE , esp:AEEJ , esp:AAE .
+
+esp:EvangelizacaoInfantil a esp:TipoDeAtividade ;
+    rdfs:label "Evangelização infantil"@pt-BR ;
+    esp:apoiadaPor esp:AIJ , esp:AEEJ , esp:AFam , esp:AA .
+
+esp:ESDE a esp:TipoDeAtividade ;
+    rdfs:label "Estudo Sistematizado da Doutrina Espírita"@pt-BR ;
+    esp:apoiadaPor esp:AEE , esp:AEEJ .
+
+esp:Passe a esp:TipoDeAtividade ;
+    rdfs:label "Passe"@pt-BR ;
+    esp:apoiadaPor esp:AAE , esp:AOM .
+
+esp:AtendimentoFraterno a esp:TipoDeAtividade ;
+    rdfs:label "Atendimento fraterno"@pt-BR ;
+    esp:apoiadaPor esp:AAE , esp:AFam .
+
+esp:DistribuicaoDeAlimentos a esp:TipoDeAtividade ;
+    rdfs:label "Distribuição de alimentos"@pt-BR ;
+    esp:apoiadaPor esp:APSE .
+
+esp:ReuniaoDeDirigentes a esp:TipoDeAtividade ;
+    rdfs:label "Reunião de dirigentes"@pt-BR ;
+    rdfs:comment "Exemplo de tipo sem área de apoio — a lista de esp:apoiadaPor pode ser vazia."@pt-BR .
+
+##
+## Geografia mínima
+##
+## Só os dois indivíduos que o catálogo precisa referenciar. Esta ontologia
+## não guarda a lista de municípios do Brasil — ver README.
+##
+
+esp:MinasGerais a esp:UnidadeFederativa ;
+    esp:sigla "MG" ;
+    rdfs:label "Minas Gerais"@pt-BR .
+
+esp:Uberaba a esp:Municipio ;
+    esp:codigoIBGE "3170206" ;
+    esp:pertenceA esp:MinasGerais ;
+    rdfs:label "Uberaba"@pt-BR .
+
+##
+## Estrutura federativa — entidades reais e estáveis
+##
+
+esp:FEB a esp:FederativaNacional ;
+    esp:sigla "FEB" ;
+    rdfs:label "Federação Espírita Brasileira"@pt-BR .
+
+esp:CFN a esp:OrgaoUnificador ;
+    esp:sigla "CFN" ;
+    esp:orgaoInternoDe esp:FEB ;
+    rdfs:label "Conselho Federativo Nacional"@pt-BR .
+
+esp:UEM a esp:FederativaEstadual ;
+    esp:sigla "UEM" ;
     rdfs:label "União Espírita Mineira"@pt-BR ;
-    rdfs:comment "Migrado do rascunho WebProtege original. Tipo mantido como Federativa (não refinado para Federação/Regional) até confirmação do papel exato na estrutura federativa pelo mantenedor do domínio."@pt-BR .
+    rdfs:comment "Entidade federativa estadual de Minas Gerais. O vínculo entre federativa estadual e FEB não é asserido aqui: a natureza dessa relação não foi definida na revisão do modelo, e asserir esp:parteDe sem confirmação repetiria o erro do v1."@pt-BR .
+
+esp:COFEMG a esp:OrgaoUnificador ;
+    esp:sigla "COFEMG" ;
+    esp:orgaoInternoDe esp:UEM ;
+    rdfs:label "Conselho Federativo Espírita de Minas Gerais"@pt-BR ;
+    rdfs:comment "Órgão interno e unificador da própria UEM, responsável por orientar e organizar o movimento espírita no estado."@pt-BR .
+
+esp:RegionalTriangulo a esp:MacroRegiao ;
+    esp:nomeLocal "Regional" ;
+    esp:parteDe esp:UEM ;
+    rdfs:label "Regional Triângulo"@pt-BR .
+
+esp:CRE16 a esp:MicroRegiao ;
+    esp:nomeLocal "CRE" ;
+    esp:parteDe esp:RegionalTriangulo ;
+    esp:abrange esp:Uberaba ;
+    rdfs:label "16ª CRE"@pt-BR ;
+    rdfs:comment "Em Minas Gerais a microrregião chama-se CRE. Outros estados usam URE, Polo ou Setor — por isso o nome local é atributo, não classe."@pt-BR .
+
+esp:AMEUberaba a esp:OrgaoMunicipal ;
+    esp:nomeLocal "AME" ;
+    esp:parteDe esp:CRE16 ;
+    esp:abrange esp:Uberaba ;
+    rdfs:label "AME Uberaba"@pt-BR .

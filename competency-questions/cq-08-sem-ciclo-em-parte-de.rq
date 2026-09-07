@@ -1,0 +1,9 @@
+# CQ-08: Nenhum órgão é parte de si mesmo, direta ou indiretamente?
+# (violação = ciclo na cadeia esp:parteDe — como parteDe é transitiva, um
+#  ciclo tornaria todos os órgãos do laço equivalentes)
+PREFIX esp: <https://w3id.org/ontologia-espirita/v1#>
+
+SELECT ?orgao
+WHERE {
+  ?orgao esp:parteDe+ ?orgao .
+}
