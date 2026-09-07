@@ -1,0 +1,35 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix esp: <https://w3id.org/ontologia-espirita/v1#> .
+
+##
+## Violações plantadas de propósito.
+##
+## Este arquivo NUNCA entra no merge de `make verify` nem no `make shacl`.
+## Ele existe só para o `make contra-exemplos`, que passa apenas quando cada
+## consulta abaixo ENCONTRA a violação correspondente.
+##
+
+esp:CoisaQueEhCasaEOrgao a esp:Casa , esp:Orgao ;
+    rdfs:label "Instituição impossível"@pt-BR ;
+    rdfs:comment "Viola a disjunção Casa/Órgão. Deve ser encontrada por cq-01."@pt-BR ;
+    esp:localizadaEm esp:Uberaba .
+
+esp:CoisaQueEhAtividadeEEvento a esp:Atividade , esp:Evento ;
+    rdfs:label "Realização impossível"@pt-BR ;
+    rdfs:comment "Viola a disjunção Atividade/Evento. Deve ser encontrada por cq-04."@pt-BR .
+
+esp:TipoComApoioInvalido a esp:TipoDeAtividade ;
+    rdfs:label "Tipo com apoio inválido"@pt-BR ;
+    rdfs:comment "esp:apoiadaPor apontando para uma federativa, não para uma área. Deve ser encontrada por cq-07."@pt-BR ;
+    esp:apoiadaPor esp:FEB .
+
+esp:CicloOrgaoA a esp:MacroRegiao ;
+    rdfs:label "Órgão em ciclo A"@pt-BR ;
+    esp:nomeLocal "Regional" ;
+    esp:parteDe esp:CicloOrgaoB .
+
+esp:CicloOrgaoB a esp:MicroRegiao ;
+    rdfs:label "Órgão em ciclo B"@pt-BR ;
+    esp:nomeLocal "CRE" ;
+    rdfs:comment "Ciclo em esp:parteDe, que é transitiva. Deve ser encontrado por cq-08 — o par A/B gera duas violações."@pt-BR ;
+    esp:parteDe esp:CicloOrgaoA .

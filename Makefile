@@ -2,7 +2,7 @@ IMAGE := ontologia-espirita-ci
 WORKDIR := $(CURDIR)
 DOCKER_RUN := docker run --rm -v "$(WORKDIR)":/work -w /work $(IMAGE)
 
-.PHONY: help check-tools build validate profile reason verify shacl context context-check clean
+.PHONY: help check-tools build validate profile reason verify shacl context context-check perguntas contra-exemplos clean
 
 help:
 	@echo "Alvos disponiveis:"
@@ -12,6 +12,8 @@ help:
 	@echo "  make reason         - roda so o robot reason (consistencia logica do TBox)"
 	@echo "  make verify         - roda so as competency questions (robot verify)"
 	@echo "  make shacl          - roda so a validacao SHACL (catalogo de referencia e exemplos)"
+	@echo "  make perguntas      - imprime as respostas do modelo para as perguntas de queries/"
+	@echo "  make contra-exemplos - prova que as verificacoes de disjuncao pegam erro"
 	@echo "  make context        - regera ontology/context.jsonld a partir de core.ttl"
 	@echo "  make context-check  - falha se context.jsonld estiver desatualizado"
 	@echo "  make clean          - remove artefatos gerados (cq-*.csv, etc)"
@@ -51,6 +53,9 @@ shacl: build
 		   echo "-- $$shape --"; \
 		   pyshacl -s "$$shape" -d /tmp/dados-shacl.ttl -i rdfs; \
 		 done'
+
+contra-exemplos: build
+	$(DOCKER_RUN) /work/docker/contra-exemplos.sh
 
 context: build
 	docker run --rm --entrypoint python3 -v "$(WORKDIR)":/work -w /work $(IMAGE) scripts/generate_context.py
