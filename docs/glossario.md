@@ -28,7 +28,7 @@ e outras vertentes não fazem parte do domínio.
 | Termo | IRI | Definição |
 |---|---|---|
 | adesa a | `esp:adesaA` | Vínculo formal de uma casa com a federativa. **Opcional** — a casa tem autonomia para decidir. |
-| status de adesão | `esp:statusAdesao` | Adesa, Pendente, Previsto ou Conhecido. |
+| status de adesão | `esp:statusAdesao` | Adesa, NaoAdesa ou EmRevisao. |
 | atendida por | `esp:atendidaPor` | Caminho administrativo de apoio (AME, CRE, Regional). Independente da adesão. |
 | parte de | `esp:parteDe` | Relação hierárquica **entre órgãos**. Uma casa nunca é parte de um órgão. |
 | órgão interno de | `esp:orgaoInternoDe` | Do unificador para sua federativa. |

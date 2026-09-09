@@ -29,7 +29,7 @@ esp:CasaFraternidade a esp:Centro ;
     rdfs:comment "Casa conhecida pelo movimento mas sem adesão. Prova que esp:adesaA é opcional: a autonomia da casa é dado válido, não erro."@pt-BR ;
     esp:localizadaEm esp:Uberaba ;
     esp:modalidade "presencial" ;
-    esp:statusAdesao "Conhecido" .
+    esp:statusAdesao "NaoAdesa" .
 
 esp:CasaEsperancaVirtual a esp:Centro ;
     rdfs:label "Grupo Espírita Esperança"@pt-BR ;
@@ -37,7 +37,7 @@ esp:CasaEsperancaVirtual a esp:Centro ;
     esp:localizadaEm esp:Uberaba ;
     esp:modalidade "virtual" ;
     esp:adesaA esp:UEM ;
-    esp:statusAdesao "Pendente" .
+    esp:statusAdesao "EmRevisao" .
 
 ##
 ## Atividades da casa — periódicas

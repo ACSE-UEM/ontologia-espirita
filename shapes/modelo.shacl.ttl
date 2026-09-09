@@ -33,8 +33,8 @@ esp:CasaShape a sh:NodeShape ;
     sh:property [
         sh:path esp:statusAdesao ;
         sh:maxCount 1 ;
-        sh:in ( "Adesa" "Pendente" "Previsto" "Conhecido" ) ;
-        sh:message "statusAdesao só aceita Adesa, Pendente, Previsto ou Conhecido."@pt-BR ;
+        sh:in ( "Adesa" "NaoAdesa" "EmRevisao" ) ;
+        sh:message "statusAdesao só aceita Adesa, NaoAdesa ou EmRevisao."@pt-BR ;
     ] ;
     sh:property [
         sh:path esp:modalidade ;

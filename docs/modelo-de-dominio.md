@@ -28,7 +28,7 @@ Ser espírita e fazer parte da estrutura federativa são coisas separadas.
 
 Por isso `esp:adesaA` é **opcional**: uma casa sem adesão é dado válido e
 comum. O modelo registra o que se sabe dela — `esp:statusAdesao` com Adesa,
-Pendente, Previsto ou Conhecido — sem exigir vínculo.
+NaoAdesa ou EmRevisao — sem exigir vínculo.
 
 `esp:parteDe` sobrevive apenas **entre órgãos**: o COFEMG é parte da UEM, a
 16ª CRE é parte da Regional Triângulo.

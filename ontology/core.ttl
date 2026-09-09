@@ -278,7 +278,7 @@ esp:statusAdesao a owl:DatatypeProperty ;
     rdfs:label "status de adesão"@pt-BR ;
     rdfs:domain esp:Casa ;
     rdfs:range xsd:string ;
-    rdfs:comment "Adesa, Pendente, Previsto ou Conhecido. Enum validado por SHACL."@pt-BR .
+    rdfs:comment "Adesa, NaoAdesa ou EmRevisao. Enum validado por SHACL."@pt-BR .
 
 esp:modalidade a owl:DatatypeProperty ;
     rdfs:label "modalidade"@pt-BR ;
